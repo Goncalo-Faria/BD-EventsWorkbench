@@ -2,8 +2,9 @@ CREATE USER 'funcionario'@'localhost' IDENTIFIED BY 'funcionariopassword';
 
 GRANT SELECT,UPDATE,DELETE,INSERT,CALL ON Workbench.* TO 'funcionario'@'localhost;
 
-CREATE USER 'organizador'@'localhost' IDENTIFIED BY 'organizadorpassword';
+###
 
+CREATE USER 'organizador'@'localhost' IDENTIFIED BY 'organizadorpassword';
 # Especificar em detalhe quais os procedures
 GRANT CALL ON Workbench.* TO 'organizador'@'localhost;
 
