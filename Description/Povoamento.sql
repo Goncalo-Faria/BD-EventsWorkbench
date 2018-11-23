@@ -51,3 +51,10 @@ VALUES (1,'O gonçalo Aprova',1,2414.422,'1998-3-3','1998-3-3',1,1),
                (3,'O gonçalo talvez apareça',3,222.888,'1998-3-3','1998-3-3',3,3);
 
 ####
+
+INSERT INTO PermiteEntrada_Evento_Participante_Divulgacao (Evento_Id,Participante_Entidade_Id, Divulgacao_Id, Classificacao,Lugar)
+VALUES	(1,7,1,10,'A422'),
+				(1,10,1,20,'A421'),
+				(2,8,2,10,'A424'),
+				(3,9,3,15,'A429'),
+                (3,10,3,12,'A432');

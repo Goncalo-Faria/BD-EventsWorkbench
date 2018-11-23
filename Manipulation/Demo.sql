@@ -16,7 +16,19 @@ From Participante;
 Select *
 From Evento;
 
-##RE1 arg:numorg
+Select *
+From PermiteEntrada_Evento_Participante_Divulgacao;
+
+Select *
+From Divulgacao;
+
+##RE1 arg:numorg =5
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select distinct
     Ent.nome, Ent.endereco, Ent.email, Ent.telemovel
 From
@@ -28,7 +40,7 @@ From
 	Entidade as Ent
 where
     E.id = OE.Evento_id
-    and OE.Organizador_Entidade_id = numorg
+    and OE.Organizador_Entidade_id = 5
     and PEPD.Evento_id = E.id
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
@@ -91,7 +103,13 @@ where
     and OE.Organizador_Entidade_id = 4
 	and E.id = 1;
 
-# RE5 numevento
+# RE5 numevento =2
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 
 Select distinct
     E.id,P.genero,P.nif,P.datadenascimento,Ent.nome, Ent.endereco, Ent.email, Ent.telemovel
@@ -101,12 +119,18 @@ From
     Participante as P,
 	Entidade as Ent
 where
-	E.id = numevento
+	E.id = 2
     and PEPD.Evento_id = E.id
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
 
 # RE6 numevento
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select distinct
     E.id,P.genero,P.nif,P.datadenascimento,Ent.nome, Ent.endereco, Ent.email, Ent.telemovel
 From
@@ -148,6 +172,12 @@ where
 	E.Local_Entidade_Id = 2;
 
 #RE8
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select
 	D.tipo, count(D.tipo)
 From 
@@ -157,6 +187,7 @@ where
 	PEPD.Divulgacao_id = D.id 
 group by D.tipo
 order by count(D.tipo);
+
 
 Select
 	D.tipo, (sum(D.Preco)/count(D.tipo))
@@ -168,17 +199,29 @@ where
 group by D.tipo
 order by (sum(D.Preco)/count(D.tipo));
 
-#RE9 arg: div
+#RE9 arg:divid =2
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 
 Select 
 	D.*
 From 
 	Divulgacao as D
 where
-	D.id = divid;
+	D.id = 2;
     
 #RE10
-
+#arg:divid =2
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select 
 	D.*, count(PEPD.Participante_Entidade_Id)
 From 
@@ -186,9 +229,5 @@ From
     PermiteEntrada_Evento_Participante_Divulgacao as PEPD
 where
 	PEPD.Divulgacao_id = D.id
-	and D.id = divid
+	and D.id = 2
 group by Divulgacao_id
-
-
-
-
