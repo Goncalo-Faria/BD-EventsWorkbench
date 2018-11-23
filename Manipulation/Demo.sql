@@ -124,7 +124,7 @@ where
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
 
-# RE6 numevento
+# RE6 numevento = 3
 ## ESTÁ A FUNCIONAR
 ## ESTÁ A FUNCIONAR
 ## ESTÁ A FUNCIONAR
@@ -139,7 +139,7 @@ From
     Participante as P,
 	Entidade as Ent
 where
-	E.id = numevento
+	E.id = 3
     and PEPD.Evento_id = E.id
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
@@ -186,18 +186,21 @@ From
 where
 	PEPD.Divulgacao_id = D.id 
 group by D.tipo
-order by count(D.tipo);
+order by count(D.tipo) DESC;
 
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 
-Select
-	D.tipo, (sum(D.Preco)/count(D.tipo))
+Select 
+	D.tipo, sum(D.Custo)/count(D.Custo) as EntParticipante
 From 
-	Divulgacao as D,
-	PermiteEntrada_Evento_Participante_Divulgacao as PEPD
-where
-	PEPD.Divulgacao_id = D.id 
+	Divulgacao as D
 group by D.tipo
-order by (sum(D.Preco)/count(D.tipo));
+order by sum(D.Custo)/count(D.Custo);
 
 #RE9 arg:divid =2
 ## ESTÁ A FUNCIONAR
