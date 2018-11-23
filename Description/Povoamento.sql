@@ -45,16 +45,9 @@ VALUES 	(1,4),
                 (1,5),
                 (3,6);
                 
-##
-                
-INSERT INTO Publicidade(Evento_id,Plataforma_id)
-VALUES (1,1),
-			   (2,1),
-               (3,1);
-               
-INSERT INTO Bilhete (Evento_id,Participante_nif)
-VALUES (1,15541190),(2,15541190),(3,15541190);
+INSERT INTO Divulgacao(Id,Conteudo,Tipo,Custo,DataInicio,DataFim,Evento_id,Plataforma_id)
+VALUES (1,'O gonçalo Aprova',1,2414.422,'1998-3-3','1998-3-3',1,1),
+			   (2,'O gonçalo vai',2,4141.3232,'1998-3-3','1998-3-3',2,2),
+               (3,'O gonçalo talvez apareça',3,222.888,'1998-3-3','1998-3-3',3,3);
 
-#INSERT INTO Bilhete (Tipo_id ,Participante_nif, Publicidade_id)
-#VALUES (2,1,22);
-# Esta tem de ser cuidadosa porque temos que assegurar que se referem ao mesmo evento.
+####

@@ -33,7 +33,13 @@ where
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
     
-# RE2 arg:numorg
+# RE2 arg:numorg=5
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select distinct
     P.*
 From
@@ -44,7 +50,7 @@ From
     Plataforma as P
 where
     E.id = OE.Evento_id
-    and OE.Organizador_Entidade_id = numorg
+    and OE.Organizador_Entidade_id = 5
     and D.Evento_id = E.id
     and D.Plataforma_id = P.id;
 
@@ -114,13 +120,19 @@ where
     and P.Entidade_id = PEPD.Participante_Entidade_id
 	and Ent.id = P.Entidade_id;
 
-#RE7 Data: dinf, dsup
+#RE7 Data: dinf, dsup = '1988-3-3'
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
+## ESTÁ A FUNCIONAR
 Select *
 From 
 	Evento as E
 where 
-	Evento.data >= dinf 
-	and Evento.data <= dsup;
+	E.data between '1988-3-3'
+	and E.data <= '1988-3-3';
 
 #RE7 idLocal :idl=2
 ## ESTÁ A FUNCIONAR
