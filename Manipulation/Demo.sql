@@ -233,4 +233,4 @@ From
 where
 	PEPD.Divulgacao_id = D.id
 	and D.id = 2
-group by Divulgacao_id
+group by Divulgacao_id;
