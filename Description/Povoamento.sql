@@ -142,25 +142,91 @@ VALUES (1,253572677,'1991-05-01',1),
                
 INSERT INTO Plataforma (id,nome)
 VALUES 	(1,'Facebook'),
-				(2,'Intagram'),
-                (3,'Discord');
+		(2,'Intagram'),
+        (3,'Twitter'),
+        (4,'GoogleAds'),
+        (5,'Youtube');
 
 INSERT INTO Evento (Id,Nome,Descricao,Tipo,data,DataInicioRegistoParticipantes,DataFimRegistoParticipantes,Duracao,Preco,NumeroMaximoDeParticipantes,Local_Entidade_Id)
-VALUES 	(1,'Jantar de Miei','comes e bebes',1,'1998-3-3','1998-3-3','1998-3-3',CURRENT_TIME(),1.1,10,1),
-				(3,'Arraial Cesium','comes e bebes',1,'1998-3-3','1998-3-3','1998-3-3',CURRENT_TIME(),1.2,20,2),
-                (2,'Casamento do Joel','comes e bebes',1,'1998-3-3','1998-3-3','1998-3-3',CURRENT_TIME(),1.3,30,3);
+VALUES 	(1,'Quiver','Concerto do Quiver',5,'2017-08-17','2017-08-10','2017-08-23',CURRENT_TIME(),29.99,39,36),
+        (2,'DJ Maximus','Concerto do DJ Maximus',5,'2017-06-02','2017-05-26','2017-06-08',CURRENT_TIME(),35.99,38,37),
+        (3,'Dreamer','Concerto do Dreamer',5,'2017-10-01','2017-09-24','2017-10-07',CURRENT_TIME(),36.99,39,38),
+        (4,'DJ Luck','Concerto do DJ Luck',5,'2017-02-02','2017-01-26','2017-02-08',CURRENT_TIME(),33.99,46,39),
+        (5,'DJ Pandemonium','Concerto do DJ Pandemonium',5,'2017-05-10','2017-05-03','2017-05-16',CURRENT_TIME(),38.99,43,40),
+        (6,'DJ Pyro','Concerto do DJ Pyro',5,'2017-09-15','2017-09-08','2017-09-21',CURRENT_TIME(),29.99,33,41),
+        (7,'Impulse','Concerto do Impulse',5,'2017-01-06','2016-12-30','2017-01-12',CURRENT_TIME(),27.99,34,42),
+        (8,'Fusion','Concerto do Fusion',5,'2017-06-13','2017-06-06','2017-06-19',CURRENT_TIME(),22.99,37,43),
+        (9,'Witness','Concerto do Witness',5,'2017-06-14','2017-06-07','2017-06-20',CURRENT_TIME(),29.99,32,44),
+        (10,'Carnage','Concerto do Carnage',5,'2017-04-02','2017-03-26','2017-04-08',CURRENT_TIME(),21.99,46,45),
+        (11,'DJ Lumière','Concerto do DJ Lumière',5,'2017-06-03','2017-05-27','2017-06-09',CURRENT_TIME(),36.99,32,46),
+        (12,'DJ Blanche','Concerto do DJ Blanche',5,'2017-12-15','2017-12-08','2017-12-21',CURRENT_TIME(),36.99,49,47),
+        (13,'DJ Tornade','Concerto do DJ Tornade',5,'2017-11-17','2017-11-10','2017-11-23',CURRENT_TIME(),27.99,44,48),
+        (14,'Acoustiques','Concerto do Acoustiques',5,'2017-06-01','2017-05-25','2017-06-07',CURRENT_TIME(),34.99,39,49),
+        (15,'Ruse','Concerto do Ruse',5,'2017-06-12','2017-06-05','2017-06-18',CURRENT_TIME(),37.99,30,50),
+        (16,'DJ Rêveur','Concerto do DJ Rêveur',5,'2017-05-06','2017-04-29','2017-05-12',CURRENT_TIME(),28.99,33,51),
+        (17,'Airtiste','Concerto do Airtiste',5,'2017-09-09','2017-09-02','2017-09-15',CURRENT_TIME(),36.99,38,52),
+        (18,'Visage','Concerto do Visage',5,'2017-10-03','2017-09-26','2017-10-09',CURRENT_TIME(),38.99,43,53),
+        (19,'DJ Charme','Concerto do DJ Charme',5,'2017-05-16','2017-05-09','2017-05-22',CURRENT_TIME(),21.99,40,54),
+        (20,'DJ Témoin','Concerto do DJ Témoin',5,'2017-08-01','2017-07-25','2017-08-07',CURRENT_TIME(),32.99,46,55),
+        (21,'Aberrant','Concerto do Aberrant',5,'2017-03-09','2017-03-02','2017-03-15',CURRENT_TIME(),34.99,45,56);
+                
 
 INSERT INTO Organizador_has_evento (Evento_id,Organizador_Entidade_id)
-VALUES 	(1,4),
-				(2,5),
-                (1,5),
-                (3,6);
+VALUES 	(1,21),
+        (2,34),
+        (3,23),
+        (4,31),
+        (5,22),
+        (6,25),
+        (7,35),
+        (8,31),
+        (9,26),
+        (10,24),
+        (11,26),
+        (12,24),
+        (13,21),
+        (14,27),
+        (15,27),
+        (16,22),
+        (17,35),
+        (18,21),
+        (19,20),
+        (20,28),
+        (21,31),
+        (21,23),
+        (6,32),
+        (19,27),
+        (6,30),
+        (16,26),
+        (20,21),
+        (1,26),
+        (2,32),
+        (20,28),
+        (5,33),
+        (3,21);
                 
 INSERT INTO Divulgacao(Id,Conteudo,Tipo,Custo,DataInicio,DataFim,Evento_id,Plataforma_id)
-VALUES (1,'O gonçalo Aprova',1,2414.422,'1998-3-3','1998-3-3',1,1),
-			   (2,'O gonçalo vai',2,4141.3232,'1998-3-3','1998-3-3',2,2),
-               (3,'O gonçalo talvez apareça',3,222.888,'1998-3-3','1998-3-3',3,3);
-
+VALUES (1,'Concerto do Quiver',9,290.99,'2017-08-10','2017-08-23',1,1),
+        (2,'Concerto do DJ Maximus',8,305.99,'2017-05-26','2017-06-08',2,4),
+        (3,'Concerto do Dreamer',1,306.99,'2017-09-24','2017-10-07',3,4),
+        (4,'Concerto do DJ Luck',7,330.99,'2017-01-26','2017-02-08',4,4),
+        (5,'Concerto do DJ Pandemonium',1,308.99,'2017-05-03','2017-05-16',5,5),
+        (6,'Concerto do DJ Pyro',3,290.99,'2017-09-08','2017-09-21',6,3),
+        (7,'Concerto do Impulse',10,270.99,'2016-12-30','2017-01-12',7,2),
+        (8,'Concerto do Fusion',1,220.99,'2017-06-06','2017-06-19',8,5),
+        (9,'Concerto do Witness',7,209.99,'2017-06-07','2017-06-20',9,5),
+        (10,'Concerto do Carnage',2,201.99,'2017-03-26','2017-04-08',10,1),
+        (11,'Concerto do DJ Lumière',1090,36.99,'2017-05-27','2017-06-09',11,1),
+        (12,'Concerto do DJ Blanche',3,369.99,'2017-12-08','2017-12-21',12,4),
+        (13,'Concerto do DJ Tornade',1,278.99,'2017-11-10','2017-11-23',13,5),
+        (14,'Concerto do Acoustiques',3,3400.99,'2017-05-25','2017-06-07',14,4),
+        (15,'Concerto do Ruse',7,3798.99,'2017-06-05','2017-06-18',15,4),
+        (16,'Concerto do DJ Rêveur',1,2889.99,'2017-04-29','2017-05-12',16,3),
+        (17,'Concerto do Airtiste',1,3896.99,'2017-09-02','2017-09-15',17,2),
+        (18,'Concerto do Visage',1,38896.99,'2017-09-26','2017-10-09',18,5),
+        (19,'Concerto do DJ Charme',9,2178.99,'2017-05-09','2017-05-22',19,4),
+        (20,'Concerto do DJ Témoin',2,3278.99,'2017-07-25','2017-08-07',20,1),
+        (21,'Concerto do Aberrant',5,3490.99,'2017-03-02','2017-03-15',21,1);
 ####
 
 INSERT INTO PermiteEntrada_Evento_Participante_Divulgacao (Evento_Id,Participante_Entidade_Id, Divulgacao_Id, Classificacao,Lugar)
