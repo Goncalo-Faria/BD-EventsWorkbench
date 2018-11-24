@@ -2,7 +2,10 @@ delimiter $$
 CREATE PROCEDURE OParticipantesDeEvento(IN n_org int,IN n_evento int)
     begin
         Select
-            Ent.nome, Ent.endereco, Ent.email, Ent.telemovel
+            Ent.nome,
+            Ent.endereco,
+            Ent.email,
+            Ent.telemovel
         From
             Evento as E,
             Organizador as O,
@@ -68,7 +71,7 @@ CREATE PROCEDURE OEventos(IN n_org int)
             Organizador_has_Evento as OE
         where
             E.id = OE.Evento_id
-            and OE.Organizador_Entidade_id = n_org
+            and OE.Organizador_Entidade_id = n_org;
 	end $$
 delimiter ;
 
@@ -85,8 +88,7 @@ CREATE PROCEDURE ODivulgacao(IN n_div INT,IN n_org INT)
 	        D.id = n_divulgacao
             and D.Evento_id = E.id
             and OE.Evento_id = E.id
-            and OE.Organizador_Entidade_id = n_org
-
+            and OE.Organizador_Entidade_id = n_org;
 	end $$
 delimiter ;
 
@@ -94,7 +96,8 @@ delimiter $$
 CREATE PROCEDURE ODivulgacaoInfluencia(IN n_div INT,IN n_org INT)
     begin
         Select 
-	        D.*, count(PEPD.Participante_Entidade_Id)
+	        D.*,
+            count(PEPD.Participante_Entidade_Id) as Influenciados
         From 
 	        Divulgacao as D,
             Evento as E,

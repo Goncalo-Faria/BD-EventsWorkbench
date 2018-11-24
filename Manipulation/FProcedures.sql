@@ -2,7 +2,12 @@ delimiter $$
 CREATE PROCEDURE FParticipanteEvento(IN n_evento int)
     begin
         Select distinct
-            E.id,P.genero,P.nif,P.datadenascimento,Ent.nome, Ent.endereco, Ent.email, Ent.telemovel
+            E.id as Id,
+            P.genero as Genero,
+            P.nif as Nif,
+            P.datadenascimento as 'Data de Nascimento',
+            Ent.nome as Nome, Ent.endereco as 'Endereço', 
+            Ent.email as Email, Ent.telemovel as 'Numero de Telefone'
         From
             Evento as E,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
@@ -42,7 +47,8 @@ delimiter $$
 CREATE PROCEDURE FContagemTipoDivulgacao()
     begin
         Select
-	        D.tipo, count(D.tipo)
+	        D.tipo,
+            count(D.tipo) as Contagem
         From 
 	        Divulgacao as D,
 	        PermiteEntrada_Evento_Participante_Divulgacao as PEPD
@@ -57,7 +63,8 @@ delimiter $$
 CREATE PROCEDURE FParticipanteMaisGastaTotal(In n int)
     begin
         Select 
-	        E.*, P.*, sum(PEPD.Preco)
+	        E.*, P.*,
+            sum(PEPD.Preco) as Gasto
         From 
 	        Participante as P,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
@@ -75,7 +82,9 @@ delimiter $$
 CREATE PROCEDURE FParticipanteMaisGastaTipoEvento(In n int, In n_tipo_e int)
     begin
         Select 
-	        E.*, P.*, sum(PEPD.Preco)
+	        E.*,
+            P.*,
+            sum(PEPD.Preco) as Gasto
         From 
 	        Participante as P,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
@@ -97,7 +106,9 @@ delimiter $$
 CREATE PROCEDURE FParticipanteMaisGastaOrg(In n int, In n_org int)
     begin
         Select 
-	        E.*, P.*, sum(PEPD.Preco)
+	        E.*,
+            P.*,
+            sum(PEPD.Preco) as Gasto
         From 
 	        Participante as P,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
@@ -123,7 +134,8 @@ delimiter $$
 CREATE PROCEDURE FDivulgacaoInfluencia()
     begin
         Select 
-	        D.*, count(PEPD.Participante_Entidade_Id)
+	        D.*,
+            count(PEPD.Participante_Entidade_Id) as Influenciados
         From 
 	        Divulgacao as D,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD
@@ -138,7 +150,8 @@ delimiter $$
 CREATE PROCEDURE FDivulgacaoEficazTipoBruto(In n_tipo_e int)
     begin
         Select 
-	        D.tipo, count(PEPD.Participante_Entidade_Id)
+	        D.tipo,
+            count(PEPD.Participante_Entidade_Id) as Influenciados
         From 
 	        Divulgacao as D,
             Entidade as E,
@@ -157,7 +170,8 @@ delimiter $$
 CREATE PROCEDURE FDivulgacaoEficazTipoProporcao(In n_tipo_e int)
     begin
         Select 
-	        D.tipo, sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id)
+	        D.tipo,
+            sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id) as 'Custo/Participante'
         From 
 	        Divulgacao as D,
             Entidade as E,
