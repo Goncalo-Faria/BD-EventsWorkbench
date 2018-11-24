@@ -5,9 +5,9 @@ CREATE PROCEDURE FParticipanteEvento(IN n_evento int)
             E.id as Id,
             P.genero as Genero,
             P.nif as Nif,
-            P.datadenascimento as 'Data de Nascimento',
+            P.datadenascimento as 'DatadeNascimento',
             Ent.nome as Nome, Ent.endereco as 'Endereço', 
-            Ent.email as Email, Ent.telemovel as 'Numero de Telefone'
+            Ent.email as Email, Ent.telemovel as 'NumerodeTelefone'
         From
             Evento as E,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
@@ -40,22 +40,6 @@ CREATE PROCEDURE FEventoEmLocal(IN n_local INT)
 	        Evento as E
         where 
 	        E.Local_Entidade_Id = n_local;
-	end $$
-delimiter ;
-
-delimiter $$
-CREATE PROCEDURE FContagemTipoDivulgacao()
-    begin
-        Select
-	        D.tipo,
-            count(D.tipo) as Contagem
-        From 
-	        Divulgacao as D,
-	        PermiteEntrada_Evento_Participante_Divulgacao as PEPD
-        where
-	        PEPD.Divulgacao_id = D.id 
-        group by D.tipo
-        order by count(D.tipo) DESC;
 	end $$
 delimiter ;
 
@@ -131,22 +115,6 @@ CREATE PROCEDURE FParticipanteMaisGastaOrg(In n int, In n_org int)
 delimiter ;
 
 delimiter $$
-CREATE PROCEDURE FDivulgacaoInfluencia()
-    begin
-        Select 
-	        D.*,
-            count(PEPD.Participante_Entidade_Id) as Influenciados
-        From 
-	        Divulgacao as D,
-            PermiteEntrada_Evento_Participante_Divulgacao as PEPD
-        where
-	        PEPD.Divulgacao_id = D.id
-            group by PEPD.Divulgacao_id
-            order by count(PEPD.Participante_Entidade_Id) DESC;
-	end $$
-delimiter ;
-
-delimiter $$
 CREATE PROCEDURE FDivulgacaoEficazTipoBruto(In n_tipo_e int)
     begin
         Select 
@@ -171,7 +139,7 @@ CREATE PROCEDURE FDivulgacaoEficazTipoProporcao(In n_tipo_e int)
     begin
         Select 
 	        D.tipo,
-            sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id) as 'Custo/Participante'
+            sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id) as 'CustoPorParticipante'
         From 
 	        Divulgacao as D,
             Entidade as E,
