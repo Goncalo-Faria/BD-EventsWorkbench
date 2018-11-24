@@ -89,3 +89,24 @@ CREATE PROCEDURE ODivulgacao(IN n_div INT,IN n_org INT)
 
 	end $$
 delimiter ;
+
+delimiter $$
+CREATE PROCEDURE ODivulgacaoInfluencia(IN n_div INT,IN n_org INT)
+    begin
+        Select 
+	        D.*, count(PEPD.Participante_Entidade_Id)
+        From 
+	        Divulgacao as D,
+            Evento as E,
+            Organizador_has_Evento as OE,
+            PermiteEntrada_Evento_Participante_Divulgacao as PEPD
+        where
+            D.id = n_div
+	        and PEPD.Divulgacao_id = D.id
+            and D.Evento_id = E.id
+            and PEPD.Evento_id = E.id
+            and OE.Evento_id = E.id
+            and OE.Organizador_Entidade_id = n_org
+            group by PEPD.Divulgacao_id;
+	end $$
+delimiter ;
