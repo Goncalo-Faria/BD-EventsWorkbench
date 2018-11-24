@@ -47,16 +47,24 @@ delimiter $$
 CREATE PROCEDURE OLocaisDeEventos(IN n_org int)
     begin
         Select distinct
-            L.*
+            Ent.nome,
+            Ent.endereco,
+            Ent.email,
+            Ent.telemovel,
+            L.tipo,
+            L.descricao,
+            L.lotacao
         From
             Evento as E,
             Organizador as O,
             Organizador_has_Evento as OE,
-	        Local as L
+	        Local as L,
+            Entidade as ent
         where
             E.id = OE.Evento_id
             and OE.Organizador_Entidade_id = n_org
-	        and L.Entidade_id = L.Entidade_id;
+	        and L.Entidade_id = L.Entidade_id
+            and Ent.id = L.Entidade_id;
 	end $$
 delimiter ;
 
