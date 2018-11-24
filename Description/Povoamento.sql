@@ -35,7 +35,7 @@ VALUES  (1,'Braga','Rodrigo Gonçalves','Rodrigo_Gonçalves@mail.pt','939898677'
 		(32,'Porto','Bruno Matos','Bruno_Matos@mail.pt','931617835'),
 		(33,'Vila Nova de Gaia','Camila Pinheiro','Camila_Pinheiro@mail.pt','930756374'),
 		(34,'Faro','Dinis Matias','Dinis_Matias@mail.pt','936271712'),
-		(35,'Vila Nova de Gaia','Vicente Lima','Vicente_Lima@mail.pt','937310040')
+		(35,'Vila Nova de Gaia','Vicente Lima','Vicente_Lima@mail.pt','937310040'),
         (36,'Leiria','Jumpstart Bistro','jumpstart_bistro@mail.pt','933381367'),
         (37,'Évora','Wakey Wakey Coffee Shop','wakey_wakey_coffee_shop@mail.pt','935929449'),
         (38,'Amadora','Thinking Cup Joint','thinking_cup_joint@mail.pt','939643171'),
@@ -101,21 +101,21 @@ VALUES 	(36,'Jumpstart Bistro',1,55),
         (65,'Coatidon Strand',1,73);
                 
 INSERT INTO Organizador (Entidade_id, Descricao)
-VALUES 	(20,'António Almeida')
-        (21,'Pedro Abreu')
-        (22,'João Fonseca')
-        (23,'Vasco Monteiro')
-        (24,'Pedro Ramos')
-        (25,'Rodrigo Antunes')
-        (26,'Martim Carvalho')
-        (27,'Vicente Raposo')
-        (28,'Manuel Neves')
-        (29,'Lara Barbosa')
-        (30,'Manuel Figueiredo')
-        (31,'Rafael Matos')
-        (32,'Bruno Matos')
-        (33,'Camila Pinheiro')
-        (34,'Dinis Matias')
+VALUES 	(20,'António Almeida'),
+        (21,'Pedro Abreu'),
+        (22,'João Fonseca'),
+        (23,'Vasco Monteiro'),
+        (24,'Pedro Ramos'),
+        (25,'Rodrigo Antunes'),
+        (26,'Martim Carvalho'),
+        (27,'Vicente Raposo'),
+        (28,'Manuel Neves'),
+        (29,'Lara Barbosa'),
+        (30,'Manuel Figueiredo'),
+        (31,'Rafael Matos'),
+        (32,'Bruno Matos'),
+        (33,'Camila Pinheiro'),
+        (34,'Dinis Matias'),
         (35,'Vicente Lima');
                 
 INSERT INTO Participante (Entidade_id,nif,DataDeNascimento,Genero)
@@ -172,7 +172,8 @@ VALUES 	(1,'Quiver','Concerto do Quiver',5,'2017-08-23','2017-08-10','2017-08-23
                 
 
 INSERT INTO Organizador_has_evento (Evento_id,Organizador_Entidade_id)
-VALUES 	(1,21),
+VALUES 	
+		(1,21),
         (2,34),
         (3,23),
         (4,31),
@@ -201,12 +202,11 @@ VALUES 	(1,21),
         (20,21),
         (1,26),
         (2,32),
-        (20,28),
         (5,33),
         (3,21);
                 
 INSERT INTO Divulgacao(Id,Conteudo,Tipo,Custo,DataInicio,DataFim,Evento_id,Plataforma_id)
-VALUES (1,'Concerto do Quiver',9,290.99,'2017-08-10','2017-08-23',1,1),
+VALUES (1,'Concerto do Quiver',6,290.99,'2017-08-10','2017-08-23',1,1),
         (2,'Concerto do DJ Maximus',8,305.99,'2017-05-26','2017-06-08',2,4),
         (3,'Concerto do Dreamer',1,306.99,'2017-09-24','2017-10-07',3,4),
         (4,'Concerto do DJ Luck',7,330.99,'2017-01-26','2017-02-08',4,4),
@@ -216,7 +216,7 @@ VALUES (1,'Concerto do Quiver',9,290.99,'2017-08-10','2017-08-23',1,1),
         (8,'Concerto do Fusion',1,220.99,'2017-06-06','2017-06-19',8,5),
         (9,'Concerto do Witness',7,209.99,'2017-06-07','2017-06-20',9,5),
         (10,'Concerto do Carnage',2,201.99,'2017-03-26','2017-04-08',10,1),
-        (11,'Concerto do DJ Lumière',1090,36.99,'2017-05-27','2017-06-09',11,1),
+        (11,'Concerto do DJ Lumière',9,36.99,'2017-05-27','2017-06-09',11,1),
         (12,'Concerto do DJ Blanche',3,369.99,'2017-12-08','2017-12-21',12,4),
         (13,'Concerto do DJ Tornade',1,278.99,'2017-11-10','2017-11-23',13,5),
         (14,'Concerto do Acoustiques',3,3400.99,'2017-05-25','2017-06-07',14,4),
@@ -224,9 +224,9 @@ VALUES (1,'Concerto do Quiver',9,290.99,'2017-08-10','2017-08-23',1,1),
         (16,'Concerto do DJ Rêveur',1,2889.99,'2017-04-29','2017-05-12',16,3),
         (17,'Concerto do Airtiste',1,3896.99,'2017-09-02','2017-09-15',17,2),
         (18,'Concerto do Visage',1,38896.99,'2017-09-26','2017-10-09',18,5),
-        (19,'Concerto do DJ Charme',9,2178.99,'2017-05-09','2017-05-22',19,4),
+        (19,'Concerto do DJ Charme',5,2178.99,'2017-05-09','2017-05-22',19,4),
         (20,'Concerto do DJ Témoin',2,3278.99,'2017-07-25','2017-08-07',20,1),
-	(22,'Quiver Strikes Back',9,390.99,'2017-08-10','2017-08-23',1,3);
+	(22,'Quiver Strikes Back',6,390.99,'2017-08-10','2017-08-23',1,3);
 
 ####
 
@@ -247,17 +247,14 @@ VALUES	(1,5,1,4,'L15'),
         (5,17,5,5,'L41'),
         (5,19,5,3,'L11'),
         (6,20,6,4,'L21'),
-        (6,0,6,5,'L1'),
         (6,19,6,3,'L24'),
         (7,3,7,3,'L46'),
         (7,9,7,5,'L21'),
         (7,1,7,4,'L42'),
         (8,15,8,6,'L27'),
         (8,12,8,4,'L45'),
-        (8,0,8,3,'L21'),
         (9,12,9,5,'L44'),
         (9,17,9,7,'L17'),
-        (9,0,9,6,'L12'),
         (10,17,10,7,'L35'),
         (10,14,10,4,'L36'),
         (10,2,10,7,'L28'),
@@ -272,7 +269,6 @@ VALUES	(1,5,1,4,'L15'),
         (13,7,13,4,'L31'),
         (14,11,14,7,'L14'),
         (14,5,14,3,'L48'),
-        (14,0,14,3,'L11'),
         (15,10,15,3,'L32'),
         (15,7,15,7,'L36'),
         (15,1,15,5,'L8'),
@@ -292,5 +288,4 @@ VALUES	(1,5,1,4,'L15'),
         (20,19,20,6,'L7'),
         (20,17,20,3,'L11'),
         (21,5,21,6,'L24'),
-        (21,10,21,6,'L17'),
-        (21,0,21,4,'L37');
+        (21,10,21,6,'L17');

@@ -23,7 +23,7 @@ CREATE PROCEDURE FEventoEntreDatas(IN d_start DATETIME,IN d_end DATETIME)
         From 
 	        Evento as E
         where 
-	        E.data between d_start and d_end
+	        E.data between d_start and d_end;
 	end $$
 delimiter ;
 
@@ -63,10 +63,10 @@ CREATE PROCEDURE FParticipanteMaisGastaTotal(In n int)
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD,
             Entidade as E
         where 
-            P.Entidade_id = PEPD.Participante_Entidade_Id,
+            P.Entidade_id = PEPD.Participante_Entidade_Id
             and P.Entidade_id = E.id
         group by P.Entidade_id
-        order by sum(PEPD.Preco) DESC;
+        order by sum(PEPD.Preco) DESC
         limit n;   
 	end $$
 delimiter ;
@@ -88,7 +88,7 @@ CREATE PROCEDURE FParticipanteMaisGastaTipoEvento(In n int, In n_tipo_e int)
             and EV.tipo = n_tipo_e
 
         group by P.Entidade_id
-        order by sum(PEPD.Preco) DESC;
+        order by sum(PEPD.Preco) DESC
         limit n;   
 	end $$
 delimiter ;
@@ -114,7 +114,7 @@ CREATE PROCEDURE FParticipanteMaisGastaOrg(In n int, In n_org int)
             and OE.Organizador_Entidade_id = n_org
 
         group by P.Entidade_id
-        order by sum(PEPD.Preco) DESC;
+        order by sum(PEPD.Preco) DESC
         limit n;   
 	end $$
 delimiter ;
@@ -129,7 +129,7 @@ CREATE PROCEDURE FDivulgacaoInfluencia()
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD
         where
 	        PEPD.Divulgacao_id = D.id
-            group by PEPD.Divulgacao_id;
+            group by PEPD.Divulgacao_id
             order by count(PEPD.Participante_Entidade_Id) DESC;
 	end $$
 delimiter ;
@@ -148,7 +148,7 @@ CREATE PROCEDURE FDivulgacaoEficazTipoBruto(In n_tipo_e int)
 	        and D.Evento_id = E.id
             and PEPD.Evento_id = E.id
             and PEPD.Divulgacao_id = D.id
-            group by D.tipo;
+            group by D.tipo
             order by count(PEPD.Participante_Entidade_Id) DESC;
 	end $$
 delimiter ;
@@ -167,7 +167,7 @@ CREATE PROCEDURE FDivulgacaoEficazTipoProporcao(In n_tipo_e int)
 	        and D.Evento_id = E.id
             and PEPD.Evento_id = E.id
             and PEPD.Divulgacao_id = D.id
-            group by D.tipo;
+            group by D.tipo
             order by sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id) DESC;
 	end $$
 delimiter ;
