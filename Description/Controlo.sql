@@ -1,6 +1,6 @@
 CREATE USER 'funcionario'@'localhost' IDENTIFIED BY 'funcionariopassword';
 
-GRANT SELECT,UPDATE,DELETE,INSERT,CALL ON Workbench.* TO 'funcionario'@'localhost;
+GRANT SELECT,UPDATE,INSERT,CALL ON Workbench.* TO 'funcionario'@'localhost;
 
 ###
 
@@ -14,7 +14,7 @@ GRANT SELECT ON (Workbench.Locais,Workbench.Plataforma) TO 'organizador'@'localh
 
 CREATE USER 'participante'@'localhost' IDENTIFIED BY 'participantepassword';
 
-GRANT CALL ON Workbench.ClassificaBilhete TO 'participante'@'localhost;
+GRANT CALL ON Workbench.* TO 'participante'@'localhost;
 
 ###
 
