@@ -1,24 +1,54 @@
-CREATE USER 'funcionario'@'localhost' IDENTIFIED BY 'funcionariopassword';
+USE EventsWorkbench;
 
-GRANT SELECT,UPDATE,INSERT,CALL ON Workbench.* TO 'funcionario'@'localhost;
+CREATE ROLE Funcionario;
+CREATE ROLE Organizador;
+CREATE ROLE Administrador;
+CREATE ROLE Participante;
 
-###
 
-CREATE USER 'organizador'@'localhost' IDENTIFIED BY 'organizadorpassword';
-# Especificar em detalhe quais os procedures
-GRANT CALL ON Workbench.* TO 'organizador'@'localhost;
+### Administrador
+GRANT ALL PRIVILEGES ON * TO Administrador;
+##
 
-GRANT SELECT ON (Workbench.Locais,Workbench.Plataforma) TO 'organizador'@'localhost;
+### Funcionario
+GRANT SELECT,UPDATE,INSERT ON EventsWorkbench.* TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FParticipanteEvento TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FEventoEntreDatas TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FEventoEmLocal TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FParticipanteMaisGastaTotal TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FParticipanteMaisGastaTipoEvento TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FParticipanteMaisGastaOrg TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FDivulgacaoEficazTipoBruto TO Funcionario;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.FDivulgacaoEficazTipoProporcao TO Funcionario;
 
-###
+##
 
-CREATE USER 'participante'@'localhost' IDENTIFIED BY 'participantepassword';
+### Organiador
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.OParticipantesDeEvento TO Organizador;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.OPlataformasDeEvento TO Organizador;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.OLocaisDeEventos TO Organizador;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.OEventos TO Organizador;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.ODivulgacao TO Organizador;
+GRANT EXECUTE ON PROCEDURE EventsWorkbench.ODivulgacaoInfluencia TO Organizador;
 
-GRANT CALL ON Workbench.* TO 'participante'@'localhost;
+GRANT SELECT ON EventsWorkbench.Local TO Organizador;
+GRANT SELECT ON EventsWorkbench.Plataforma TO Organizador;
 
-###
+##
 
-CREATE USER 'Admin'@'localhost' IDENTIFIED BY 'Adminpassword';
+### Participante
 
-GRANT ALL PRIVILEGES ON Workbench.* TO 'Admin'@'localhost;
+##
+
+
+CREATE USER 'funcionario24'@'localhost' IDENTIFIED BY 'funcionariopassword';
+GRANT Funcionario to 'funcionario24';
+
+CREATE USER 'organizador10'@'localhost' IDENTIFIED BY 'organizadorpassword';
+GRANT Organizador to 'organizador10';
+
+CREATE USER 'participante32'@'localhost' IDENTIFIED BY 'participantepassword';
+GRANT Particpante to 'participante32';
+
+
 

@@ -25,3 +25,5 @@ CREATE VIEW FContagemTipoDivulgacao as
         D.tipo
     order by
         count(D.tipo) DESC;
+
+        
