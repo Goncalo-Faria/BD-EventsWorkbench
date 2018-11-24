@@ -39,7 +39,7 @@ CREATE PROCEDURE FEventoEmLocal(IN n_local INT)
 delimiter ;
 
 delimiter $$
-CREATE PROCEDURE FContagemTipo()
+CREATE PROCEDURE FContagemTipoDivulgacao()
     begin
         Select
 	        D.tipo, count(D.tipo)
@@ -72,7 +72,7 @@ CREATE PROCEDURE FParticipanteMaisGastaTotal(In n int)
 delimiter ;
 
 delimiter $$
-CREATE PROCEDURE FParticipanteMaisGastaTipo(In n int, In n_tipo_e int)
+CREATE PROCEDURE FParticipanteMaisGastaTipoEvento(In n int, In n_tipo_e int)
     begin
         Select 
 	        E.*, P.*, sum(PEPD.Preco)
