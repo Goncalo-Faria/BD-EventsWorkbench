@@ -223,15 +223,15 @@ DECLARE nr_classificacoes INT;
 DECLARE ex_media DECIMAL(4,2);
 DECLARE old_somaclassificacao_total INT;
 
-SET nr_classificacoes = (SELECT COUNT(pe.classificacao)
-									     FROM PermiteEntrada_Evento_Participante_Divulgacao pe
+SET nr_classificacoes = (SELECT COUNT(classificacao)
+									     FROM PermiteEntrada_Evento_Participante_Divulgacao
 									     WHERE evento_id = NEW.evento_id AND (NEW.classificacao IS NOT NULL));
-SET ex_media = (SELECT Evento.Classificacao
+SET ex_media = (SELECT classificacao
 							 FROM Evento
 							  WHERE id = NEW.evento_id);
 
 IF ex_media IS NOT NULL THEN
-	SET old_somaclassificacao_total = (nr_classificacoes - 1)* ex_media;
+	SET old_somaclassificacao_total = (nr_classificacoes - 1)*ex_media;
 ELSE 
 	SET old_somaclassificacao_total = 0;
 END IF;
