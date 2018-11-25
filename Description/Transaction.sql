@@ -217,6 +217,7 @@ CALL addParticipanteEventoDivulgacao(8,2,2,6,1, 90, 'L78');
 */
 
 # 8. Participante atualiza classificação
+
 DELIMITER $$
 
 CREATE TRIGGER after_classificacao_update
@@ -280,8 +281,8 @@ SELECT *
  Where Evento_id = 2;
  
 UPDATE PermiteEntrada_Evento_Participante_Divulgacao
-SET classificacao = 7
-WHERE evento_id = 2 AND participante_entidade_id = 6;
+SET classificacao = null
+WHERE evento_id = 2 AND participante_entidade_id = 3;
 
 UPDATE Evento
 SET classificacao = 9
@@ -295,9 +296,9 @@ SELECT COUNT(classificacao)
 FROM PermiteEntrada_Evento_Participante_Divulgacao pe
 WHERE evento_id = 2 AND classificacao IS NOT NULL;
 
-CALL addParticipanteEventoDivulgacao(6,2,2,7,1, 90, 'L78');
+CALL addParticipanteEventoDivulgacao(4,2,2,9,1, 90, 'L78');
 
-CALL addEvento (105,'Quiver','Concerto do Quiver',5,'2017-08-23',CURRENT_TIME(), 34.34,'2017-08-10','2017-08-23',10,9,40);
+CALL addEvento(105,'Quiver','Concerto do Quiver',5,'2017-08-23',CURRENT_TIME(), 34.34,'2017-08-10','2017-08-23',10,9,40);
 
 UPDATE Evento
 SET Evento.Classificacao = (Evento.classificacao*(5-1) + 10)  / 5
@@ -307,7 +308,6 @@ WHERE Evento.id = 20;
 
 # 8. Funcionário adiciona nova linha com classificação ja incluida do participante
 
--- ESBOCO 1 --- ERRADO
 DELIMITER $$
 
 CREATE TRIGGER after_classificacao_insert
@@ -331,7 +331,7 @@ IF ex_media IS NOT NULL THEN
 ELSE 
 	SET old_somaclassificacao_total = 0;
 END IF;
-										
+						
 UPDATE Evento
 SET Evento.Classificacao = (old_somaclassificacao_total + NEW.classificacao) / nr_classificacoes
 WHERE Evento.id = NEW.evento_id;   
@@ -339,6 +339,10 @@ WHERE Evento.id = NEW.evento_id;
 END $$
 
 DELIMITER ;
+
+
+
+
 
 # 9. Apagar uma entrada do relacionamento ternário
 -- ESBOCO 2 --- ERRADO
