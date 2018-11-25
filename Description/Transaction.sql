@@ -169,7 +169,7 @@ where id = 109;
 DELIMITER $$
 CREATE PROCEDURE addParticipanteEventoDivulgacao(IN participante_entidade_id INT, IN evento_id INT, IN divulgacao_id INT, 
 																							   IN classificacao INT, IN estado ENUM('Válido', 'Cancelado', 'Reservado') , 
-                                                                                               IN preco DOUBLE, IN lugar VARCHAR(32))
+                                                                                               IN preco DECIMAL(7,2), IN lugar VARCHAR(32))
 BEGIN
 	DECLARE evento_divulgacao INT;
 	DECLARE nr_participantes_maximo INT;
