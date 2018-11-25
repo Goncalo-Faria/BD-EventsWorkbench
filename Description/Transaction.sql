@@ -12,12 +12,13 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
-		#criar Entidade
+		-- criar Entidade
         INSERT INTO Entidade (id, endereco, nome, email, telemovel)
 		VALUES (id, endereco, nome, email, telemovel);
-        #criar Local
+        -- criar Local
 		INSERT INTO Local (entidade_id, lotacao, descricao, tipo)
 		VALUES (id, lotacao, descricao, tipo);
+        
 		IF `_rollback` THEN
 			ROLLBACK;
 		ELSE
@@ -45,12 +46,13 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
-		#criar Entidade
+		-- criar Entidade
         INSERT INTO Entidade (id, endereco, nome, email, telemovel)
 		VALUES (id, endereco, nome, email, telemovel);
-        #criar Organizador
+        -- criar Organizador
 		INSERT INTO Organizador(entidade_id, descricao)
 		VALUES (id, descricao);
+        
 		IF `_rollback` THEN
 			ROLLBACK;
 		ELSE
@@ -83,12 +85,13 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
-		#criar Entidade
+		-- criar Entidade
         INSERT INTO Entidade (id, endereco, nome, email, telemovel)
 		VALUES (id, endereco, nome, email, telemovel);
-        #criar Participante
+        -- criar Participante
 		INSERT INTO Participante (entidade_id, datadenascimento, genero, nif)
 		VALUES  (id, datadenascimento, genero, nif);
+        
 		IF `_rollback` THEN
 			ROLLBACK;
 		ELSE
@@ -129,15 +132,16 @@ BEGIN
 									WHERE Local.Entidade_Id = local_Entidade_Id);
         
     START TRANSACTION;
-		#verificar se o local possui a lotacao maxima necessario
+		-- verificar se o local possui a lotacao maxima necessaria
 		IF (maxlotacao < numeroMaximoDeParticipantes) THEN 
 			SET `_rollback` = 1;
         END IF;
-        
+        -- criar Evento
 		INSERT INTO Evento (id, nome, descricao, tipo, data, duracao, preco, dataInicioRegistoParticipantes, 
 											dataFimRegistoParticipantes, classificacao, numeroMaximoDeParticipantes, local_Entidade_Id)
 		VALUES (id, nome, descricao, tipo, data, duracao, preco, dataInicioRegistoParticipantes,  
 						dataFimRegistoParticipantes, classificacao, numeroMaximoDeParticipantes, local_Entidade_Id);
+                        
 		IF `_rollback` THEN
 			ROLLBACK;
 		ELSE
@@ -186,17 +190,17 @@ BEGIN
 															  FROM PermiteEntrada_Evento_Participante_Divulgacao pe
 															  WHERE pe.evento_id = evento_id);
     START TRANSACTION;
-		#verificar se o evento associado à divulgação é o mesmo evento que se prende adicionar ao relacionamento ternário
+		-- verificar se o evento associado à divulgação é o mesmo evento que se prende adicionar ao relacionamento ternário
 		IF (evento_divulgacao <> evento_id) THEN 
 			SET `_rollback` = 1;
         END IF;
-        #verificar se o número de participantes máximo já foi excedido
+        -- verificar se o número de participantes máximo já foi atingido
 		IF (nr_participantes_maximo = nr_participantes_no_evento) THEN 
 			SET `_rollback` = 1;
         END IF;
-        
+        -- criar Evento-Participante-Divulgacao
 		INSERT INTO PermiteEntrada_Evento_Participante_Divulgacao (participante_entidade_id,evento_id,divulgacao_id,classificacao,estado,preco,lugar)
-		VALUES   (participante_entidade_id,evento_id,divulgacao_id,classificacao,estado,preco,lugar);
+		VALUES (participante_entidade_id,evento_id,divulgacao_id,classificacao,estado,preco,lugar);
         
 		IF `_rollback` THEN
 			ROLLBACK;
@@ -208,7 +212,7 @@ END $$
 DELIMITER ;
 
 /* TESTE
-CALL addParticipanteEventoDivulgacao(8,21,21,6,1, 90, 'L78');
+CALL addParticipanteEventoDivulgacao(8,2,2,6,1, 90, 'L78');
 */
 
 # 8. Participante adiciona classificação -> TRIGGER
@@ -228,10 +232,10 @@ SET nr_classificacoes = (SELECT COUNT(classificacao)
 									     WHERE evento_id = NEW.evento_id AND (NEW.classificacao IS NOT NULL));
 SET ex_media = (SELECT classificacao
 							 FROM Evento
-							  WHERE id = NEW.evento_id);
+							 WHERE id = NEW.evento_id);
 
 IF ex_media IS NOT NULL THEN
-	SET old_somaclassificacao_total = (nr_classificacoes - 1)*ex_media;
+	SET old_somaclassificacao_total = (nr_classificacoes - 1) * ex_media;
 ELSE 
 	SET old_somaclassificacao_total = 0;
 END IF;
@@ -243,6 +247,8 @@ WHERE Evento.id = NEW.evento_id;
 END $$
 
 DELIMITER ;
+
+
 
 /* TESTE
 DROP TRIGGER after_classificacao_update;
