@@ -105,3 +105,32 @@ CREATE PROCEDURE CriarDivulgacao(
     ) 
     END $$ 
 DELIMITER;
+
+-- 1. Adicionar Local
+DELIMITER $$
+CREATE PROCEDURE addLocalComEntidadeExistente(IN id INT, IN lotacao INT, IN descricao TEXT(256), 
+														IN tipo ENUM('Bares‎', 'Casas noturnas', 'Casa de espetáculos', 'Hotelaria', 'Restaurantes', 
+                                                        'Centros Culturais', 'Multiusos', 'Quintas', 'Outros'))
+    BEGIN
+		INSERT INTO Local (entidade_id, lotacao, descricao, tipo)
+		VALUES (id, lotacao, descricao, tipo);    
+    END $$
+DELIMITER ;
+
+# 2. Adicionar Organizador
+DELIMITER $$
+CREATE PROCEDURE addOrganizadorComEntidadeExistente(IN id INT, IN descricao TEXT(512))
+    BEGIN
+		INSERT INTO Organizador(entidade_id, descricao)
+		VALUES (id, descricao);
+    END $$
+DELIMITER ;
+
+# 3. Adicionar Participante
+DELIMITER $$
+CREATE PROCEDURE addParticipanteComEntidadeExistente(IN id INT, IN datadenascimento DATE, IN genero ENUM('Feminino', 'Masculino'), IN nif INT)
+    BEGIN
+		INSERT INTO Participante (entidade_id, datadenascimento, genero, nif)
+		VALUES  (id, datadenascimento, genero, nif);
+    END $$
+DELIMITER ;
