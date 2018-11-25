@@ -217,6 +217,7 @@ CALL addParticipanteEventoDivulgacao(8,2,2,6,1, 90, 'L78');
 */
 
 # 8. Participante atualiza classificação
+
 DELIMITER $$
 
 CREATE TRIGGER after_classificacao_update
@@ -255,8 +256,7 @@ ELSE
 	END IF;
     SET result = (old_somaclassificacao_total + NEW.classificacao) / nr_classificacoes;
 END IF;
-
-										
+									
 UPDATE Evento
 SET Evento.Classificacao = result
 WHERE Evento.id = NEW.evento_id;   
@@ -280,11 +280,11 @@ SELECT *
  Where Evento_id = 2;
  
 UPDATE PermiteEntrada_Evento_Participante_Divulgacao
-SET classificacao = 7
+SET classificacao = 6
 WHERE evento_id = 2 AND participante_entidade_id = 6;
 
 UPDATE Evento
-SET classificacao = 9
+SET classificacao = 4
 WHERE id = 2;
 
 
@@ -295,9 +295,9 @@ SELECT COUNT(classificacao)
 FROM PermiteEntrada_Evento_Participante_Divulgacao pe
 WHERE evento_id = 2 AND classificacao IS NOT NULL;
 
-CALL addParticipanteEventoDivulgacao(6,2,2,7,1, 90, 'L78');
+CALL addParticipanteEventoDivulgacao(6,2,2,6,1, 90, 'L78');
 
-CALL addEvento (105,'Quiver','Concerto do Quiver',5,'2017-08-23',CURRENT_TIME(), 34.34,'2017-08-10','2017-08-23',10,9,40);
+CALL addEvento(105,'Quiver','Concerto do Quiver',5,'2017-08-23',CURRENT_TIME(), 34.34,'2017-08-10','2017-08-23',10,9,40);
 
 UPDATE Evento
 SET Evento.Classificacao = (Evento.classificacao*(5-1) + 10)  / 5
@@ -307,7 +307,6 @@ WHERE Evento.id = 20;
 
 # 8. Funcionário adiciona nova linha com classificação ja incluida do participante
 
--- ESBOCO 1 --- ERRADO
 DELIMITER $$
 
 CREATE TRIGGER after_classificacao_insert
@@ -319,29 +318,34 @@ DECLARE nr_classificacoes INT;
 DECLARE ex_media DECIMAL(4,2);
 DECLARE old_somaclassificacao_total INT;
 
-SET nr_classificacoes = (SELECT COUNT(classificacao)
-									     FROM PermiteEntrada_Evento_Participante_Divulgacao
-									     WHERE evento_id = NEW.evento_id AND (NEW.classificacao IS NOT NULL));
-SET ex_media = (SELECT classificacao
-							 FROM Evento
-							 WHERE id = NEW.evento_id);
+IF NEW.classificacao IS NOT NULL THEN
 
-IF ex_media IS NOT NULL THEN
-	SET old_somaclassificacao_total = (nr_classificacoes - 1) * ex_media;
-ELSE 
-	SET old_somaclassificacao_total = 0;
+	SET nr_classificacoes = (SELECT COUNT(classificacao)
+											FROM PermiteEntrada_Evento_Participante_Divulgacao
+											WHERE evento_id = NEW.evento_id AND (NEW.classificacao IS NOT NULL));
+	SET ex_media = (SELECT classificacao
+								FROM Evento
+								WHERE id = NEW.evento_id);
+
+	IF ex_media IS NOT NULL THEN
+		SET old_somaclassificacao_total = (nr_classificacoes - 1) * ex_media;
+	ELSE 
+		SET old_somaclassificacao_total = 0;
+	END IF;
+						
+	UPDATE Evento
+	SET Evento.Classificacao = (old_somaclassificacao_total + NEW.classificacao) / nr_classificacoes
+	WHERE Evento.id = NEW.evento_id;   
+    
 END IF;
-										
-UPDATE Evento
-SET Evento.Classificacao = (old_somaclassificacao_total + NEW.classificacao) / nr_classificacoes
-WHERE Evento.id = NEW.evento_id;   
     
 END $$
 
 DELIMITER ;
 
+
 # 9. Apagar uma entrada do relacionamento ternário
--- ESBOCO 2 --- ERRADO
+
 DELIMITER $$
 
 CREATE TRIGGER after_classificacao_delete
@@ -351,28 +355,38 @@ BEGIN
 
 DECLARE nr_classificacoes INT;
 DECLARE ex_media DECIMAL(4,2);
-DECLARE classificacao_deleted INT;
+DECLARE result INT;
 DECLARE old_somaclassificacao_total INT;
 
-SET nr_classificacoes = (SELECT COUNT(pe.classificacao)
-									     FROM PermiteEntrada_Evento_Participante_Divulgacao pe
-									     WHERE pe.evento_id = pe.evento_id AND (pe.classificacao IS NOT NULL));
-SET ex_media = 7;
-
-SET  classificacao_deleted  = DELETED.classificacao;
-
-SET old_somaclassificacao_total = (nr_classificacoes + 1) * ex_media;
-										
-UPDATE Evento
-SET Evento.Classificacao = 10
-WHERE Evento.id = evento_id;   
+IF OLD.classificacao IS NOT NULL THEN
+	SET nr_classificacoes = (SELECT COUNT(classificacao)
+									         FROM PermiteEntrada_Evento_Participante_Divulgacao
+									         WHERE evento_id = OLD.evento_id AND (classificacao IS NOT NULL));
+	SET ex_media = (SELECT classificacao
+							     FROM Evento
+							     WHERE id = OLD.evento_id);
+	IF nr_classificacoes <> 0 THEN
+		SET old_somaclassificacao_total = (nr_classificacoes + 1) * ex_media;
+        SET result = (old_somaclassificacao_total - OLD.classificacao) / nr_classificacoes;
+	ELSE
+		SET result = null;
+    END IF;
     
+	UPDATE Evento
+	SET Evento.Classificacao = result
+	WHERE Evento.id = OLD.evento_id;    
+    
+END IF;
+
 END $$
 
 DELIMITER ;
+
+/*
 
 DROP TRIGGER after_classificacao_delete;
 
 
 DELETE FROM PermiteEntrada_Evento_Participante_Divulgacao
 WHERE Evento_id = 2 AND Participante_Entidade_id = 8 AND Divulgacao_id = 2;
+*/
