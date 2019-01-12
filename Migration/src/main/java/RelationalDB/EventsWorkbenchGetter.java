@@ -21,9 +21,9 @@ public final class EventsWorkbenchGetter {
         return this.l.query(participantes);
     }
 
-    public ResultSet organizador() throws SQLException{
+    public ResultSet organizacao() throws SQLException{
         String organizadores = "select Entidade.id, Entidade.nome, Entidade.email " +
-                "from Entidade inner join Organizador on Entidade.id = Organizador.entidade_id;";
+                "from Entidade inner join Organizacao on Entidade.id = Organizador.entidade_id;";
         return this.l.query(organizadores);
     }
 

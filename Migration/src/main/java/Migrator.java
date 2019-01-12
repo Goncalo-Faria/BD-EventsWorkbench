@@ -30,7 +30,7 @@ public class Migrator {
             Neo4JWriter nw = new Neo4JWriter("graf","sqluserpw");
             Neo4JNode[] an = new Neo4JNode[1];
 
-            //
+            //evento
             List<String> eventlist = new ArrayList<>();
             eventlist.add("id");eventlist.add("nome");eventlist.add("preco");
             table = wb.evento();
@@ -40,7 +40,17 @@ public class Migrator {
                 nw.createEntradas(an);
             }
             //<<<<
-            //
+            //organizacao
+            List<String> orglist = new ArrayList<>();
+            orglist.add("id");orglist.add("nome");orglist.add("email");
+            table = wb.organizacao();
+
+            while(table.next()) {
+                an[0] = fillnode(orglist, table, "Organizacao");
+                nw.createEntradas(an);
+            }
+            //<<<<
+            //divulgacao
             List<String> divlist = new ArrayList<>();
             divlist.add("id");divlist.add("tipo");divlist.add("custo");
             table = wb.divulgacao();
