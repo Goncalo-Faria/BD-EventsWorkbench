@@ -13,12 +13,12 @@ public class Migrator {
         Neo4JNode neo = new Neo4JNode(node);
         int col = table.getMetaData().getColumnCount();
 
-        while(table.next())
-            for( int i = 1; i<=col ; i++ )
-                neo.addAtribute( atributes.get(i-1) ,table.getString(i) );
+        while(table.next()) {
+            for (int i = 1; i <= col; i++)
+                neo.addAtribute(atributes.get(i - 1), table.getString(i));
+        }
 
-
-            return neo;
+        return neo;
     }
 
 
@@ -57,6 +57,17 @@ public class Migrator {
 
             while(table.next()) {
                 an[0] = fillnode(divlist, table, "Divulgacao");
+                nw.createEntradas(an);
+            }
+            //<<<<
+            //<<<<
+            //participacao nome, email, telemovel, genero, nif
+            List<String> partlist = new ArrayList<>();
+            partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");
+            table = wb.participante();
+
+            while(table.next()) {
+                an[0] = fillnode(partlist, table, "Participante");
                 nw.createEntradas(an);
             }
             //<<<<
