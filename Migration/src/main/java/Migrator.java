@@ -10,7 +10,7 @@ import java.util.List;
 public class Migrator {
 
     private static Neo4JNode fillnode(List<String> atributes, ResultSet table, String node) throws SQLException{
-        Neo4JNode neo = new Neo4JNode("node");
+        Neo4JNode neo = new Neo4JNode(node);
         int col = table.getMetaData().getColumnCount();
 
         while(table.next())
