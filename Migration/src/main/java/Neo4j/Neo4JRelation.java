@@ -1,3 +1,5 @@
+package Neo4j;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,11 +26,12 @@ public class Neo4JRelation {
     public void addRelationAtribute(String type, String attribute){
         relatributes.put(type,attribute);
     }
+
     public String createLigacaoString(){
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (ori:" +originNodeType+ " {id:"+idOri+"})\n");
         sb.append("MATCH (dest:" +destNodeType+ " {id:"+idDest+"})\n");
-        sb.append("Create (ori) ->[:" +reltype +"");
+        sb.append("Create (ori) -[:" +reltype +"");
         if (relatributes.size() > 0){
             sb.append(" {") ;
             boolean comma = false;
