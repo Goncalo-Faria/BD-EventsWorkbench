@@ -26,6 +26,7 @@ public class Neo4JRelation {
     public void addRelationAtribute(String type, String attribute){
         relatributes.put(type,attribute);
     }
+
     public String createLigacaoString(){
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (ori:" +originNodeType+ " {id:"+idOri+"})\n");

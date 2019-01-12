@@ -43,7 +43,7 @@ public final class EventsWorkbenchGetter {
     }
 
     public ResultSet participa() throws SQLException {
-        String evento_participante = "select participante_entidade_id, evento_id " +
+        String evento_participante = "select participante_entidade_id, evento_id, preco " +
                 " from PermiteEntrada_Evento_Participante_Divulgacao";
         return this.l.query(evento_participante);
     }
