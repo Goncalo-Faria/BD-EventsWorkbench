@@ -3,6 +3,7 @@ import Neo4j.Neo4JRelation;
 import Neo4j.Neo4JWriter;
 import RelationalDB.EventsWorkbenchGetter;
 
+import javax.sound.midi.SysexMessage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ public class Migrator {
         int col = table.getMetaData().getColumnCount();
 
         for (int i = 1; i <= col; i++)
-            neo.addAtribute(atributes.get(i - 1), table.getString(i));
+            if(atributes.get(i - 1).equals("id") || atributes.get(i - 1).equals("preco"))
+                neo.addAtribute(atributes.get(i - 1), table.getString(i));
+            else
+                neo.addAtribute(atributes.get(i - 1), " '" + table.getString(i) + "' ");
 
 
         return neo;
@@ -58,16 +62,16 @@ public class Migrator {
             //organizacao
             List<String> orglist = new ArrayList<>();
             orglist.add("id");orglist.add("nome");orglist.add("email");
-            table = wb.organizacao();
+            table = wb.organizador();
 
             while(table.next()) {
-                an[0] = fillnode(orglist, table, "Organizacao");
+                an[0] = fillnode(orglist, table, "Organizador");
                 nw.createEntradas(an);
             }
             //<<<<
             //divulgacao
             List<String> divlist = new ArrayList<>();
-            divlist.add("id");divlist.add("tipo");divlist.add("custo");
+            divlist.add("id");divlist.add("tipo");divlist.add("preco");
             table = wb.divulgacao();
 
             while(table.next()) {
@@ -78,7 +82,7 @@ public class Migrator {
             //<<<<
             //participacao
             List<String> partlist = new ArrayList<>();
-            partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");
+            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");
             table = wb.participante();
 
             while(table.next()) {
@@ -101,7 +105,7 @@ public class Migrator {
             table = wb.organiza();
 
             while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza","Organizacao","Evento");
+                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza","Organizador","Evento");
                 nw.createLigacoes(bn);
             }
             //<<<<

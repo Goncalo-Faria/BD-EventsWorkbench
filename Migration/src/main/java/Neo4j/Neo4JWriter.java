@@ -19,9 +19,7 @@ public class Neo4JWriter {
             }
             c.commit();
             c.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -37,14 +35,12 @@ public class Neo4JWriter {
             }
             c.commit();
             c.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public Neo4JWriter(String user, String password) {
-        url = "jdbc:neo4j:bolt://localhost:7687?username="+user+",password="+password+",routing:policy=EU";
+        url = "jdbc:neo4j:bolt://localhost:11001?username="+user+",password="+password+",routing:policy=EU";
     }
 }
