@@ -30,7 +30,7 @@ public class Migrator {
         int col = table.getMetaData().getColumnCount();
 
         for (int i = 3; i <= col; i++)
-            rel.addRelationAtribute(atributes.get(i - 1), table.getString(i));
+            rel.addRelationAtribute(atributes.get(i - 3), table.getString(i));
 
         return rel;
     }
@@ -89,11 +89,37 @@ public class Migrator {
             //<<<<
             //participa
             List<String> participalist = new ArrayList<>();
-            participalist.add("participante_id");participalist.add("evento_id");participalist.add("preco");
+            participalist.add("preco");
             table = wb.participa();
 
             while(table.next()){
                 bn[0] = fillrelationship(participalist,table,"Participa","Participante","Evento");
+                nw.createLigacoes(bn);
+            }
+            //<<<<
+            //organiza
+            table = wb.organiza();
+
+            while(table.next()){
+                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza","Organizacao","Evento");
+                nw.createLigacoes(bn);
+            }
+            //<<<<
+            //<<<<
+            //divulga
+            table = wb.divulga();
+
+            while(table.next()){
+                bn[0] = fillrelationship(new ArrayList<>(), table,"Divulga","Divulgacao","Evento");
+                nw.createLigacoes(bn);
+            }
+            //<<<<
+            //<<<<
+            //influencia
+            table = wb.influencia();
+
+            while(table.next()){
+                bn[0] = fillrelationship(new ArrayList<>(), table,"Influencia","Divulgacao","Participante");
                 nw.createLigacoes(bn);
             }
             //<<<<
