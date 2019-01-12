@@ -36,7 +36,7 @@ public class Neo4JNode {
         sb.append("})");
         return sb.toString();
     }
-
+    /*
     public static void main(String args[]){
         Neo4JNode test = new Neo4JNode("T");
         test.addAtribute("nome","'coisas'");
@@ -44,4 +44,5 @@ public class Neo4JNode {
         test.addAtribute("kl", "1");
         System.out.println(test.createString());
     }
+    */
 }

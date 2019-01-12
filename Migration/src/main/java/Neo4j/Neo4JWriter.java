@@ -8,6 +8,10 @@ import java.sql.Statement;
 public class Neo4JWriter {
     String url;
 
+    public Neo4JWriter(String user, String password) {
+        url = "jdbc:neo4j:bolt://localhost:11001?username="+user+",password="+password+",routing:policy=EU";
+    }
+
     public void createEntradas(Neo4JNode n[]){
         try {
             Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
@@ -38,9 +42,5 @@ public class Neo4JWriter {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public Neo4JWriter(String user, String password) {
-        url = "jdbc:neo4j:bolt://localhost:11001?username="+user+",password="+password+",routing:policy=EU";
     }
 }
