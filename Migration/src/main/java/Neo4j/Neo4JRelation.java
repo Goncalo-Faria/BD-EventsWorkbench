@@ -31,7 +31,7 @@ public class Neo4JRelation {
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (ori:" +originNodeType+ " {id:"+idOri+"})\n");
         sb.append("MATCH (dest:" +destNodeType+ " {id:"+idDest+"})\n");
-        sb.append("Create (ori) ->[:" +reltype +"");
+        sb.append("Create (ori) -[:" +reltype +"");
         if (relatributes.size() > 0){
             sb.append(" {") ;
             boolean comma = false;
