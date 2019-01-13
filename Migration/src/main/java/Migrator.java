@@ -120,7 +120,7 @@ public class Migrator {
                 bn.add(fillrelationship(new ArrayList<>(), table,"Influencia",
                         "Divulgacao","Participante"));
 
-            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],Long.valueOf(args[5]));
+            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],args[5]);
             nw.createEntradas(an);
             nw.createLigacoes(bn);
             //<<<<

@@ -9,10 +9,9 @@ import java.util.List;
 public class Neo4JWriter {
     private Connection connection;
 
-    public Neo4JWriter(String user, String password, long port) throws ClassNotFoundException, SQLException{
+    public Neo4JWriter(String user, String password, String ip) throws ClassNotFoundException, SQLException{
         Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
-        connection = DriverManager.getConnection("jdbc:neo4j:bolt://localhost:"+
-                port +"?username="+user+",password="+password+",routing:policy=EU");
+        connection = DriverManager.getConnection("jdbc:neo4j:bolt://" + ip + "?username="+user+",password="+password+",routing:policy=EU");
         connection.setAutoCommit(false);
     }
 
