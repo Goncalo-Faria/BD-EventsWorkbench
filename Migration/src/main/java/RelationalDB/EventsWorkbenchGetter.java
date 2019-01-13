@@ -28,7 +28,7 @@ public final class EventsWorkbenchGetter {
     }
 
     public ResultSet evento() throws SQLException {
-        String eventos = "select id, nome, preco from Evento;";
+        String eventos = "select id, nome from Evento;";
         return this.l.query(eventos);
     }
 

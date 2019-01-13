@@ -51,7 +51,7 @@ public class Migrator {
 
             //evento
             List<String> eventlist = new ArrayList<>();
-            eventlist.add("id");eventlist.add("nome");eventlist.add("preco");
+            eventlist.add("id");eventlist.add("nome");//eventlist.add("preco");
             table = wb.evento();
 
             while(table.next()) {
