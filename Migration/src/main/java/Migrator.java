@@ -24,7 +24,9 @@ public class Migrator {
         return neo;
     }
 
-    private static Neo4JRelation fillrelationship(List<String> atributes, ResultSet table, String reltype, String originNodeType,String destNodeType) throws SQLException{
+    private static Neo4JRelation fillrelationship(List<String> atributes,
+                                                  ResultSet table, String reltype, String originNodeType,
+                                                  String destNodeType) throws SQLException{
 
         Neo4JRelation rel = new Neo4JRelation(reltype,
                 originNodeType, table.getString(1) ,
@@ -81,7 +83,8 @@ public class Migrator {
             //<<<<
             //participacao
             List<String> partlist = new ArrayList<>();
-            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");
+            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");
+            partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
             table = wb.participante();
 
             while(table.next()) {
@@ -113,7 +116,8 @@ public class Migrator {
             table = wb.divulga();
 
             while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Divulga","Divulgacao","Evento");
+                bn[0] = fillrelationship(new ArrayList<>(), table,"Divulga",
+                        "Divulgacao","Evento");
                 nw.createLigacoes(bn);
             }
             //<<<<
@@ -122,7 +126,8 @@ public class Migrator {
             table = wb.influencia();
 
             while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Influencia","Divulgacao","Participante");
+                bn[0] = fillrelationship(new ArrayList<>(), table,"Influencia",
+                        "Divulgacao","Participante");
                 nw.createLigacoes(bn);
             }
             //<<<<
