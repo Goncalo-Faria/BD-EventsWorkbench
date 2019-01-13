@@ -6,40 +6,37 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Neo4JWriter {
-    String url;
+    private Connection connection;
 
-    public Neo4JWriter(String user, String password, long port) {
-        url = "jdbc:neo4j:bolt://localhost:"+ port +"?username="+user+",password="+password+",routing:policy=EU";
+    public Neo4JWriter(String user, String password, long port) throws ClassNotFoundException, SQLException{
+        Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
+        connection = DriverManager.getConnection("jdbc:neo4j:bolt://localhost:"+ port +"?username="+user+",password="+password+",routing:policy=EU");
+        connection.setAutoCommit(false);
     }
 
     public void createEntradas(Neo4JNode n[]){
         try {
-            Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
-            Connection c = DriverManager.getConnection(url);
-            c.setAutoCommit(false);
             for (int i = 0; i < n.length; i++) {
-                Statement st = c.createStatement();
+                Statement st = connection.createStatement();
                 st.execute(n[i].createString());
             }
-            c.commit();
-            c.close();
-        } catch (SQLException | ClassNotFoundException e) {
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void createLigacoes(Neo4JRelation rels[]){
         try {
-            Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
-            Connection c = DriverManager.getConnection(url);
-            c.setAutoCommit(false);
+
             for (int i = 0; i < rels.length; i++) {
-                Statement st = c.createStatement();
+                Statement st = connection.createStatement();
                 st.execute(rels[i].createLigacaoString());
             }
-            c.commit();
-            c.close();
-        } catch (SQLException | ClassNotFoundException e) {
+            connection.commit();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
