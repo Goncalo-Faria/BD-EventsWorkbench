@@ -25,7 +25,7 @@ public class Migrator {
         return neo;
     }
 
-    private static Neo4JRelation fillrelationship(List<String> atributes, ResultSet table, String reltype, String originNodeType,String destNodeType) throws SQLException{
+    private static Neo4JRelation fillrelationship(ArrayList<String> atributes, ResultSet table, String reltype, String originNodeType,String destNodeType) throws SQLException{
 
         Neo4JRelation rel = new Neo4JRelation(reltype,
                 originNodeType, table.getString(1) ,
@@ -43,9 +43,9 @@ public class Migrator {
     public static void main(String[] args){
 
         try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter("graf","sqluserpw");
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter("root","catarina");
             ResultSet table;
-            Neo4JWriter nw = new Neo4JWriter("graf","sqluserpw");
+            Neo4JWriter nw = new Neo4JWriter("neo4j","catarina");
             Neo4JNode[] an = new Neo4JNode[1];
             Neo4JRelation[] bn = new Neo4JRelation[1];
 
@@ -82,7 +82,7 @@ public class Migrator {
             //<<<<
             //participacao
             List<String> partlist = new ArrayList<>();
-            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");
+            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
             table = wb.participante();
 
             while(table.next()) {
@@ -92,7 +92,7 @@ public class Migrator {
             //<<<<
             //<<<<
             //participa
-            List<String> participalist = new ArrayList<>();
+            ArrayList<String> participalist = new ArrayList<>();
             participalist.add("preco");
             table = wb.participa();
 
