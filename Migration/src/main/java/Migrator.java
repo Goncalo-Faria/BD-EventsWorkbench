@@ -10,7 +10,8 @@ import java.util.List;
 
 public class Migrator {
 
-    private static Neo4JNode fillnode(List<String> atributes, ResultSet table, String node) throws SQLException{
+    private static Neo4JNode fillnode(List<String> atributes,
+                                      ResultSet table, String node) throws SQLException{
         Neo4JNode neo = new Neo4JNode(node);
         int col = table.getMetaData().getColumnCount();
 
@@ -44,9 +45,9 @@ public class Migrator {
     public static void main(String[] args){
 
         try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter("graf","sqluserpw");
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1]);
             ResultSet table;
-            Neo4JWriter nw = new Neo4JWriter("graf","sqluserpw");
+            Neo4JWriter nw = new Neo4JWriter(args[2],args[3],11001);
             Neo4JNode[] an = new Neo4JNode[1];
             Neo4JRelation[] bn = new Neo4JRelation[1];
 

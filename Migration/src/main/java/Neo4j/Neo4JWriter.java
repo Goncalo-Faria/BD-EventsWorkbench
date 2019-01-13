@@ -8,8 +8,8 @@ import java.sql.Statement;
 public class Neo4JWriter {
     String url;
 
-    public Neo4JWriter(String user, String password) {
-        url = "jdbc:neo4j:bolt://localhost:11001?username="+user+",password="+password+",routing:policy=EU";
+    public Neo4JWriter(String user, String password, long port) {
+        url = "jdbc:neo4j:bolt://localhost:"+ port +"?username="+user+",password="+password+",routing:policy=EU";
     }
 
     public void createEntradas(Neo4JNode n[]){
