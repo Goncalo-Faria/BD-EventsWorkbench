@@ -45,7 +45,7 @@ public class Migrator {
     public static void main(String[] args){
 
         try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1]);
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],"localhost");
             ResultSet table;
             Neo4JWriter nw = new Neo4JWriter(args[2],args[3],11001);
             Neo4JNode[] an = new Neo4JNode[1];
@@ -100,7 +100,8 @@ public class Migrator {
             table = wb.participa();
 
             while(table.next()){
-                bn[0] = fillrelationship(participalist,table,"Participa","Participante","Evento");
+                bn[0] = fillrelationship(participalist,table,"Participa",
+                        "Participante","Evento");
                 nw.createLigacoes(bn);
             }
             //<<<<
@@ -108,7 +109,8 @@ public class Migrator {
             table = wb.organiza();
 
             while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza","Organizador","Evento");
+                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza",
+                        "Organizador","Evento");
                 nw.createLigacoes(bn);
             }
             //<<<<
