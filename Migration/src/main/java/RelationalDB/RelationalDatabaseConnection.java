@@ -1,16 +1,14 @@
 package RelationalDB;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 
 public class RelationalDatabaseConnection {
 
     private Connection connection;
 
-    public RelationalDatabaseConnection(String url, String user, String password) throws SQLException,ClassNotFoundException {
+    public RelationalDatabaseConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.connection = DriverManager.getConnection(url + "?user=" + user + "&password=" + password);
-
     }
 
     public ResultSet query(String sql) throws SQLException{

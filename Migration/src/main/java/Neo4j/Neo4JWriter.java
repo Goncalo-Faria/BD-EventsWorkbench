@@ -41,6 +41,6 @@ public class Neo4JWriter {
     }
 
     public Neo4JWriter(String user, String password) {
-        url = "jdbc:neo4j:bolt://localhost:11001?username="+user+",password="+password+",routing:policy=EU";
+        url = "jdbc:neo4j:bolt://localhost:7687?username="+user+",password="+password+",routing:policy=EU";
     }
 }
