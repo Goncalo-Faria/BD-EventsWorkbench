@@ -122,7 +122,7 @@ CREATE PROCEDURE FDivulgacaoEficazTipoBruto(In n_tipo_e int)
             count(PEPD.Participante_Entidade_Id) as Influenciados
         From 
 	        Divulgacao as D,
-            Entidade as E,
+            Evento as E,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD
         where
 	        E.tipo = n_tipo_e
@@ -142,7 +142,7 @@ CREATE PROCEDURE FDivulgacaoEficazTipoProporcao(In n_tipo_e int)
             sum(PEPD.Preco)/count(PEPD.Participante_Entidade_Id) as 'CustoPorParticipante'
         From 
 	        Divulgacao as D,
-            Entidade as E,
+            Evento as E,
             PermiteEntrada_Evento_Participante_Divulgacao as PEPD
         where
 	        E.tipo = n_tipo_e

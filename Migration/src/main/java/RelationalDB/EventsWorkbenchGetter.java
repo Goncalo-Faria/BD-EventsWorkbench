@@ -7,8 +7,8 @@ public final class EventsWorkbenchGetter {
 
     private final RelationalDatabaseConnection l;
 
-    public EventsWorkbenchGetter(String user, String password) throws SQLException, ClassNotFoundException {
-        l = new RelationalDatabaseConnection("jdbc:mysql://localhost/EventsWorkbench", user, password);
+    public EventsWorkbenchGetter(String user, String password, String ip) throws SQLException, ClassNotFoundException {
+        l = new RelationalDatabaseConnection("jdbc:mysql://" + ip + "/EventsWorkbench", user, password);
     }
 
     public void termina() throws SQLException{
@@ -28,7 +28,7 @@ public final class EventsWorkbenchGetter {
     }
 
     public ResultSet evento() throws SQLException {
-        String eventos = "select id, nome, preco from Evento;";
+        String eventos = "select id, nome from Evento;";
         return this.l.query(eventos);
     }
 

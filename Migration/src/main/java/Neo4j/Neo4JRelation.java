@@ -51,11 +51,4 @@ public class Neo4JRelation {
         return sb.toString();
     }
 
-    public static void main(String args[]){
-        Neo4JRelation r = new Neo4JRelation("rel","no","1","te0","'k0'");
-        r.addRelationAtribute("preco","10");
-        r.addRelationAtribute("pl","'no'");
-        System.out.println(r.createLigacaoString());
-
-    }
 }

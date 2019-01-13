@@ -3,7 +3,6 @@ import Neo4j.Neo4JRelation;
 import Neo4j.Neo4JWriter;
 import RelationalDB.EventsWorkbenchGetter;
 
-import javax.sound.midi.SysexMessage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +10,98 @@ import java.util.List;
 
 public class Migrator {
 
-    private static Neo4JNode fillnode(List<String> atributes, ResultSet table, String node) throws SQLException{
+    private static List<Neo4JNode> an = new ArrayList<>();
+    private static List<Neo4JRelation> bn = new ArrayList<>();
+
+    public static void main(String[] args){
+
+        try {
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],args[2]);
+            ResultSet table;
+
+            List<String> eventlist = new ArrayList<>();
+            eventlist.add("id");eventlist.add("nome");//eventlist.add("preco");
+            transfer_table(eventlist, wb.evento(),"Evento");
+
+            List<String> orglist = new ArrayList<>();
+            orglist.add("id");orglist.add("nome");orglist.add("email");
+            transfer_table(orglist, wb.organizador(),"Organizador");
+
+            List<String> divlist = new ArrayList<>();
+            divlist.add("id");divlist.add("tipo");divlist.add("preco");
+            transfer_table(divlist, wb.divulgacao(),"Divulgacao");
+
+            List<String> partlist = new ArrayList<>();
+            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");
+            partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
+            transfer_table(partlist,wb.participante(),"Participante");
+
+            List<String> participalist = new ArrayList<>();
+            participalist.add("preco");
+            transfer_relationship(participalist, wb.participa(),
+                    "Participa", "Participante",
+                    "Evento");
+
+            transfer_relationship(new ArrayList<>(), wb.organiza(),
+                    "Organiza", "Organizador",
+                    "Evento");
+
+            transfer_relationship(new ArrayList<>(), wb.divulga(),
+                    "Divulga", "Divulgacao",
+                    "Evento");
+
+            transfer_relationship(new ArrayList<>(), wb.influencia(),
+                    "Influencia", "Divulgacao",
+                    "Participante");
+
+            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],args[5]);
+            nw.createEntradas(an);
+            nw.createLigacoes(bn);
+            //<<<<
+
+            wb.termina();
+            nw.termina();
+
+        }catch(SQLException a ){
+            System.out.println(a.getMessage());
+
+        }catch(ClassNotFoundException b){
+            System.out.println(" Driver error ");
+        }
+    }
+
+    private static void transfer_relationship(List<String> atributes, ResultSet table,
+                                              String relationship, String from ,
+                                              String to) throws SQLException{
+        while(table.next())
+            bn.add(fillrelationship(atributes ,table ,relationship ,
+                    from ,to ));
+    }
+
+    private static void transfer_table(List<String> atributes, ResultSet table,
+                                       String nodetype) throws SQLException{
+        while(table.next())
+            an.add(fillnode(atributes, table, nodetype));
+    }
+
+    private static Neo4JRelation fillrelationship(List<String> atributes,
+                                                  ResultSet table, String relationship, String from,
+                                                  String to) throws SQLException{
+
+        Neo4JRelation rel = new Neo4JRelation(relationship,
+                from, table.getString(1) ,
+                to, table.getString(2));
+
+        int col = table.getMetaData().getColumnCount();
+
+        for (int i = 3; i <= col; i++)
+            rel.addRelationAtribute(atributes.get(i - 3), table.getString(i));
+
+        return rel;
+    }
+
+    private static Neo4JNode fillnode(List<String> atributes,
+                                      ResultSet table, String node) throws SQLException{
         Neo4JNode neo = new Neo4JNode(node);
         int col = table.getMetaData().getColumnCount();
 
@@ -23,118 +113,5 @@ public class Migrator {
 
 
         return neo;
-    }
-
-    private static Neo4JRelation fillrelationship(ArrayList<String> atributes, ResultSet table, String reltype, String originNodeType,String destNodeType) throws SQLException{
-
-        Neo4JRelation rel = new Neo4JRelation(reltype,
-                originNodeType, table.getString(1) ,
-                destNodeType, table.getString(2));
-
-        int col = table.getMetaData().getColumnCount();
-
-        for (int i = 3; i <= col; i++)
-            rel.addRelationAtribute(atributes.get(i - 3), table.getString(i));
-
-        return rel;
-    }
-
-
-    public static void main(String[] args){
-
-        try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter("root","catarina");
-            ResultSet table;
-            Neo4JWriter nw = new Neo4JWriter("neo4j","catarina");
-            Neo4JNode[] an = new Neo4JNode[1];
-            Neo4JRelation[] bn = new Neo4JRelation[1];
-
-            //evento
-            List<String> eventlist = new ArrayList<>();
-            eventlist.add("id");eventlist.add("nome");eventlist.add("preco");
-            table = wb.evento();
-
-            while(table.next()) {
-                an[0] = fillnode(eventlist, table, "Evento");
-                nw.createEntradas(an);
-            }
-            //<<<<
-            //organizacao
-            List<String> orglist = new ArrayList<>();
-            orglist.add("id");orglist.add("nome");orglist.add("email");
-            table = wb.organizador();
-
-            while(table.next()) {
-                an[0] = fillnode(orglist, table, "Organizador");
-                nw.createEntradas(an);
-            }
-            //<<<<
-            //divulgacao
-            List<String> divlist = new ArrayList<>();
-            divlist.add("id");divlist.add("tipo");divlist.add("preco");
-            table = wb.divulgacao();
-
-            while(table.next()) {
-                an[0] = fillnode(divlist, table, "Divulgacao");
-                nw.createEntradas(an);
-            }
-            //<<<<
-            //<<<<
-            //participacao
-            List<String> partlist = new ArrayList<>();
-            partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
-            table = wb.participante();
-
-            while(table.next()) {
-                an[0] = fillnode(partlist, table, "Participante");
-                nw.createEntradas(an);
-            }
-            //<<<<
-            //<<<<
-            //participa
-            ArrayList<String> participalist = new ArrayList<>();
-            participalist.add("preco");
-            table = wb.participa();
-
-            while(table.next()){
-                bn[0] = fillrelationship(participalist,table,"Participa","Participante","Evento");
-                nw.createLigacoes(bn);
-            }
-            //<<<<
-            //organiza
-            table = wb.organiza();
-
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza","Organizador","Evento");
-                nw.createLigacoes(bn);
-            }
-            //<<<<
-            //<<<<
-            //divulga
-            table = wb.divulga();
-
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Divulga","Divulgacao","Evento");
-                nw.createLigacoes(bn);
-            }
-            //<<<<
-            //<<<<
-            //influencia
-            table = wb.influencia();
-
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Influencia","Divulgacao","Participante");
-                nw.createLigacoes(bn);
-            }
-            //<<<<
-
-            wb.termina();
-
-        }catch(SQLException a ){
-            System.out.println(a.getMessage());
-
-        }catch(ClassNotFoundException b){
-            System.out.println(" Driver error ");
-        }
     }
 }
