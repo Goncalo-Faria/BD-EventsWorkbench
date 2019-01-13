@@ -3,7 +3,6 @@ import Neo4j.Neo4JRelation;
 import Neo4j.Neo4JWriter;
 import RelationalDB.EventsWorkbenchGetter;
 
-import javax.sound.midi.SysexMessage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

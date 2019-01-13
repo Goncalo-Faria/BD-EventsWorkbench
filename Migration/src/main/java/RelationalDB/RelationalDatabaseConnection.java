@@ -1,6 +1,5 @@
 package RelationalDB;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 
 public class RelationalDatabaseConnection {
