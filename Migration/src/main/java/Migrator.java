@@ -41,45 +41,38 @@ public class Migrator {
         return rel;
     }
 
+    private static List<Neo4JNode> an = new ArrayList<>();
+    private static List<Neo4JRelation> bn = new ArrayList<>();
 
     public static void main(String[] args){
 
         try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],"localhost");
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],args[2]);
             ResultSet table;
-            Neo4JWriter nw = new Neo4JWriter(args[2],args[3],11001);
-            Neo4JNode[] an = new Neo4JNode[1];
-            Neo4JRelation[] bn = new Neo4JRelation[1];
 
             //evento
             List<String> eventlist = new ArrayList<>();
             eventlist.add("id");eventlist.add("nome");//eventlist.add("preco");
             table = wb.evento();
+            while(table.next())
+                an.add(fillnode(eventlist, table, "Evento"));
 
-            while(table.next()) {
-                an[0] = fillnode(eventlist, table, "Evento");
-                nw.createEntradas(an);
-            }
             //<<<<
             //organizacao
             List<String> orglist = new ArrayList<>();
             orglist.add("id");orglist.add("nome");orglist.add("email");
             table = wb.organizador();
+            while(table.next())
+                an.add(fillnode(orglist, table, "Organizador"));
 
-            while(table.next()) {
-                an[0] = fillnode(orglist, table, "Organizador");
-                nw.createEntradas(an);
-            }
             //<<<<
             //divulgacao
             List<String> divlist = new ArrayList<>();
             divlist.add("id");divlist.add("tipo");divlist.add("preco");
             table = wb.divulgacao();
+            while(table.next())
+                an.add(fillnode(divlist, table, "Divulgacao"));
 
-            while(table.next()) {
-                an[0] = fillnode(divlist, table, "Divulgacao");
-                nw.createEntradas(an);
-            }
             //<<<<
             //<<<<
             //participacao
@@ -87,11 +80,9 @@ public class Migrator {
             partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");
             partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
             table = wb.participante();
+            while(table.next())
+                an.add(fillnode(partlist, table, "Participante"));
 
-            while(table.next()) {
-                an[0] = fillnode(partlist, table, "Participante");
-                nw.createEntradas(an);
-            }
             //<<<<
             //<<<<
             //participa
@@ -99,43 +90,43 @@ public class Migrator {
             participalist.add("preco");
             table = wb.participa();
 
-            while(table.next()){
-                bn[0] = fillrelationship(participalist,table,"Participa",
-                        "Participante","Evento");
-                nw.createLigacoes(bn);
-            }
+            while(table.next())
+                bn.add(fillrelationship(participalist,table,"Participa",
+                        "Participante","Evento"));
+
             //<<<<
             //organiza
             table = wb.organiza();
 
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(),table,"Organiza",
-                        "Organizador","Evento");
-                nw.createLigacoes(bn);
-            }
+            while(table.next())
+                bn.add(fillrelationship(new ArrayList<>(),table,"Organiza",
+                        "Organizador","Evento"));
+
             //<<<<
             //<<<<
             //divulga
             table = wb.divulga();
 
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Divulga",
-                        "Divulgacao","Evento");
-                nw.createLigacoes(bn);
-            }
+            while(table.next())
+                bn.add(fillrelationship(new ArrayList<>(), table,"Divulga",
+                        "Divulgacao","Evento"));
+
             //<<<<
             //<<<<
             //influencia
             table = wb.influencia();
 
-            while(table.next()){
-                bn[0] = fillrelationship(new ArrayList<>(), table,"Influencia",
-                        "Divulgacao","Participante");
-                nw.createLigacoes(bn);
-            }
+            while(table.next())
+                bn.add(fillrelationship(new ArrayList<>(), table,"Influencia",
+                        "Divulgacao","Participante"));
+
+            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],Long.valueOf(args[5]));
+            nw.createEntradas(an);
+            nw.createLigacoes(bn);
             //<<<<
 
             wb.termina();
+            nw.termina();
 
         }catch(SQLException a ){
             System.out.println(a.getMessage());
