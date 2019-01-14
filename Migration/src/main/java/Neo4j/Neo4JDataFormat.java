@@ -6,16 +6,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public abstract class Neo4JDataFormat implements Runnable{
-    private final String name;
-    private final Map<String,String> atributes = new HashMap();
     private static final Queue<Neo4JDataFormat> q = new LinkedList();
     private static int n = 10;
+    private static int threadcount = 1;
     private static List<Thread> th = new LinkedList<>();
     private static Neo4JWriter w;
     private static AtomicBoolean operating = new AtomicBoolean(true);
 
     public static void setInsertSize(int n){
         Neo4JDataFormat.n = n;
+    }
+
+    public static void setThreadCount(int n){
+        Neo4JDataFormat.threadcount = n;
     }
 
     public static void setConnection(String user, String password,
@@ -53,6 +56,9 @@ public abstract class Neo4JDataFormat implements Runnable{
         }
     }
 
+    private final String name;
+    private final Map<String,String> atributes = new HashMap();
+
     Neo4JDataFormat(String name){
         this.name = name;
     }
@@ -82,7 +88,7 @@ public abstract class Neo4JDataFormat implements Runnable{
 
 
                     Iterator<Neo4JDataFormat> it = q.iterator();
-                    for(int i = 0; i < n; i++){
+                    for(int i = 0; i < threadcount; i++){
                         if(it.hasNext()){
                             l.add(it.next());
                             it.remove();

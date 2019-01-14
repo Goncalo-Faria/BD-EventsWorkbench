@@ -1,7 +1,6 @@
 import Neo4j.Neo4JDataFormat;
 import Neo4j.Neo4JNode;
 import Neo4j.Neo4JRelation;
-import Neo4j.Neo4JWriter;
 import RelationalDB.EventsWorkbenchGetter;
 
 import java.sql.ResultSet;
@@ -17,6 +16,7 @@ public class Migrator {
         try {
             EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],args[2]);
             Neo4JDataFormat.setInsertSize(10);
+            Neo4JDataFormat.setThreadCount(5);
             Neo4JDataFormat.setConnection(args[3],args[4],args[5]);
 
             List<String> eventlist = new ArrayList<>();
