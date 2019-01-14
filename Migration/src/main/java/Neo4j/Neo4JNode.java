@@ -1,7 +1,5 @@
 package Neo4j;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 /**
  * Classe Generica para criar script de criaçao de nó no Neo4j

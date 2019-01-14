@@ -1,9 +1,6 @@
 package Neo4j;
 
-
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 
 public abstract class Neo4JDataFormat{
 
