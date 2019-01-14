@@ -44,18 +44,18 @@ public final class EventsWorkbenchGetter {
 
     public ResultSet participa() throws SQLException {
         String evento_participante = "select participante_entidade_id, evento_id, preco " +
-                " from PermiteEntrada_Evento_Participante_Divulgacao";
+                " from PermiteEntrada_Evento_Participante_Divulgacao ;";
         return this.l.query(evento_participante);
     }
 
     public ResultSet divulga() throws SQLException {
-        String evento_divulga = "select id, evento_id from Divulgacao";
+        String evento_divulga = "select id, evento_id from Divulgacao ;";
         return this.l.query(evento_divulga);
     }
 
     public ResultSet influencia() throws SQLException {
         String participante_divulgacao = "select divulgacao_id, participante_entidade_id " +
-                " from PermiteEntrada_Evento_Participante_Divulgacao";
+                " from PermiteEntrada_Evento_Participante_Divulgacao where divulgacao_id IS NOT NULL; ";
         return this.l.query(participante_divulgacao);
     }
 
