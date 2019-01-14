@@ -45,7 +45,7 @@ public class Neo4JWriter implements Runnable{
         th.start();
 
     }
-    public void close() throws InterruptedException, SQLException{
+    public void termina() throws InterruptedException, SQLException{
 
         operating.set(false);
 

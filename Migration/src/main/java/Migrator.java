@@ -72,8 +72,7 @@ public class Migrator {
                     "Participante");
 
             wb.termina();
-            neow.close();
-
+            neow.termina();
 
         }catch(SQLException|InterruptedException a ){
             System.out.println(a.getMessage());
@@ -87,8 +86,7 @@ public class Migrator {
                                               String relationship, String from ,
                                               String to) throws SQLException{
         while(table.next())
-            neow.queue(fillrelationship(atributes ,table ,relationship ,
-                    from ,to ));
+            neow.queue(fillrelationship(atributes ,table ,relationship , from ,to ));
     }
 
     private static void transfer_table(List<String> atributes, ResultSet table,
