@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public abstract class Neo4JDataFormat implements Runnable{
+public abstract class Neo4JDataFormat{
 
     private final String name;
     private final Map<String,String> atributes = new HashMap();
