@@ -1,3 +1,4 @@
+import Neo4j.Neo4JDataFormat;
 import Neo4j.Neo4JNode;
 import Neo4j.Neo4JRelation;
 import Neo4j.Neo4JWriter;
@@ -10,14 +11,28 @@ import java.util.List;
 
 public class Migrator {
 
-    private static List<Neo4JNode> an = new ArrayList<>();
-    private static List<Neo4JRelation> bn = new ArrayList<>();
+    private static Neo4JWriter neow;
 
     public static void main(String[] args){
 
         try {
-            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],args[2]);
-            ResultSet table;
+            if(args.length < 6 ){
+                System.out.println(" Insufficient number of arguments ");
+                System.out.println("arguments should be :");
+                System.out.println("<sqluser> <sqlpassword> <sqlip> <neo4juser> <neo4jpassword> <neo4jip>");
+                System.out.println("user sqluserpw localhost:3306 user neo4juserpw localhost:11001");
+                return;
+            }
+
+            String sqluser = args[0];
+            String sqlpassword = args[1];
+            String sqlip = args[2];
+            String neo4juser = args[3];
+            String neo4jpassword = args[4];
+            String neo4jip = args[5];
+
+            EventsWorkbenchGetter wb = new EventsWorkbenchGetter(sqluser,sqlpassword,sqlip);
+            neow = new Neo4JWriter(neo4juser,neo4jpassword,neo4jip,10);
 
             List<String> eventlist = new ArrayList<>();
             eventlist.add("id");eventlist.add("nome");//eventlist.add("preco");
@@ -35,6 +50,8 @@ public class Migrator {
             partlist.add("id");partlist.add("nome");partlist.add("email");partlist.add("telemovel");
             partlist.add("genero");partlist.add("nif");partlist.add("DataDeNascimento");
             transfer_table(partlist,wb.participante(),"Participante");
+
+            neow.halt();
 
             List<String> participalist = new ArrayList<>();
             participalist.add("preco");
@@ -54,15 +71,10 @@ public class Migrator {
                     "Influencia", "Divulgacao",
                     "Participante");
 
-            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],args[5]);
-            nw.createEntradas(an);
-            nw.createLigacoes(bn);
-            //<<<<
-
             wb.termina();
-            nw.termina();
+            neow.termina();
 
-        }catch(SQLException a ){
+        }catch(SQLException|InterruptedException a ){
             System.out.println(a.getMessage());
 
         }catch(ClassNotFoundException b){
@@ -74,14 +86,13 @@ public class Migrator {
                                               String relationship, String from ,
                                               String to) throws SQLException{
         while(table.next())
-            bn.add(fillrelationship(atributes ,table ,relationship ,
-                    from ,to ));
+            neow.queue(fillrelationship(atributes ,table ,relationship , from ,to ));
     }
 
     private static void transfer_table(List<String> atributes, ResultSet table,
                                        String nodetype) throws SQLException{
         while(table.next())
-            an.add(fillnode(atributes, table, nodetype));
+            neow.queue(fillnode(atributes, table, nodetype));
     }
 
     private static Neo4JRelation fillrelationship(List<String> atributes,
@@ -95,7 +106,7 @@ public class Migrator {
         int col = table.getMetaData().getColumnCount();
 
         for (int i = 3; i <= col; i++)
-            rel.addRelationAtribute(atributes.get(i - 3), table.getString(i));
+            rel.addAtribute(atributes.get(i - 3), table.getString(i));
 
         return rel;
     }

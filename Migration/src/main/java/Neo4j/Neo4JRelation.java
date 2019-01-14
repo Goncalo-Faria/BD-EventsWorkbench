@@ -7,35 +7,29 @@ import java.util.Map.Entry;
 /**
  * Classe Generica para criar script de criaçao de arcos no Neo4j
  * */
-public class Neo4JRelation {
-    private String reltype;
-    private Map<String,String> relatributes = new HashMap();
+public class Neo4JRelation extends Neo4JDataFormat{
     private String originNodeType;
     private String idOri;
     private String destNodeType;
     private String idDest;
 
     public Neo4JRelation(String reltype, String originNodeType, String idOri, String destNodeType, String idDest) {
-        this.reltype = reltype;
+        super(reltype);
         this.originNodeType = originNodeType;
         this.idOri = idOri;
         this.destNodeType = destNodeType;
         this.idDest = idDest;
     }
 
-    public void addRelationAtribute(String type, String attribute){
-        relatributes.put(type,attribute);
-    }
-
-    public String createLigacaoString(){
+    public String createCommand(){
         StringBuilder sb = new StringBuilder();
         sb.append("MATCH (ori:" +originNodeType+ " {id:"+idOri+"})\n");
         sb.append("MATCH (dest:" +destNodeType+ " {id:"+idDest+"})\n");
-        sb.append("Create (ori) -[:" +reltype +"");
-        if (relatributes.size() > 0){
+        sb.append("Create (ori) -[:" +getType() +"");
+        if (get_atributes().size() > 0){
             sb.append(" {") ;
             boolean comma = false;
-            for (Entry<String,String> e: relatributes.entrySet()) {
+            for (Entry<String,String> e: get_atributes().entrySet()) {
                 if(!comma)
                     comma = true;
                 else
