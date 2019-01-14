@@ -1,3 +1,4 @@
+import Neo4j.Neo4JDataFormat;
 import Neo4j.Neo4JNode;
 import Neo4j.Neo4JRelation;
 import Neo4j.Neo4JWriter;
@@ -10,14 +11,13 @@ import java.util.List;
 
 public class Migrator {
 
-    private static List<Neo4JNode> an = new ArrayList<>();
-    private static List<Neo4JRelation> bn = new ArrayList<>();
 
     public static void main(String[] args){
 
         try {
             EventsWorkbenchGetter wb = new EventsWorkbenchGetter(args[0],args[1],args[2]);
-            ResultSet table;
+            Neo4JDataFormat.setInsertSize(10);
+            Neo4JDataFormat.setConnection(args[3],args[4],args[5]);
 
             List<String> eventlist = new ArrayList<>();
             eventlist.add("id");eventlist.add("nome");//eventlist.add("preco");
@@ -54,15 +54,11 @@ public class Migrator {
                     "Influencia", "Divulgacao",
                     "Participante");
 
-            Neo4JWriter nw = new Neo4JWriter(args[3],args[4],args[5]);
-            nw.createEntradas(an);
-            nw.createLigacoes(bn);
-            //<<<<
-
             wb.termina();
-            nw.termina();
+            Neo4JDataFormat.closeConnection();
 
-        }catch(SQLException a ){
+
+        }catch(SQLException|InterruptedException a ){
             System.out.println(a.getMessage());
 
         }catch(ClassNotFoundException b){
@@ -74,14 +70,14 @@ public class Migrator {
                                               String relationship, String from ,
                                               String to) throws SQLException{
         while(table.next())
-            bn.add(fillrelationship(atributes ,table ,relationship ,
+            Neo4JDataFormat.queue(fillrelationship(atributes ,table ,relationship ,
                     from ,to ));
     }
 
     private static void transfer_table(List<String> atributes, ResultSet table,
                                        String nodetype) throws SQLException{
         while(table.next())
-            an.add(fillnode(atributes, table, nodetype));
+            Neo4JDataFormat.queue(fillnode(atributes, table, nodetype));
     }
 
     private static Neo4JRelation fillrelationship(List<String> atributes,
@@ -95,7 +91,7 @@ public class Migrator {
         int col = table.getMetaData().getColumnCount();
 
         for (int i = 3; i <= col; i++)
-            rel.addRelationAtribute(atributes.get(i - 3), table.getString(i));
+            rel.addAtribute(atributes.get(i - 3), table.getString(i));
 
         return rel;
     }

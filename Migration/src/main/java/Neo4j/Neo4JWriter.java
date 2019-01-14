@@ -7,40 +7,28 @@ import java.sql.Statement;
 import java.util.List;
 
 public class Neo4JWriter {
-    private Connection connection;
 
-    public Neo4JWriter(String user, String password, String ip) throws ClassNotFoundException, SQLException{
-        Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
-        connection = DriverManager.getConnection("jdbc:neo4j:bolt://" + ip + "?username="+user+",password="+password+",routing:policy=EU");
-        connection.setAutoCommit(false);
+    private final String url;
+
+    public Neo4JWriter(String user, String password, String ip){
+        url = "jdbc:neo4j:bolt://" + ip + "?username="+user+",password="+password+",routing:policy=EU";
     }
 
-    public void createEntradas(List<Neo4JNode> n){
+    public void write(List<Neo4JDataFormat> rels){
         try {
-            for (Neo4JNode i : n) {
+            Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
+            Connection connection = DriverManager.getConnection(url);
+            connection.setAutoCommit(false);
+
+            for (Neo4JDataFormat i : rels) {
                 Statement st = connection.createStatement();
-                st.execute(i.createString());
+                st.execute(i.createCommand());
             }
             connection.commit();
-        } catch (SQLException e) {
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void createLigacoes(List<Neo4JRelation> rels){
-        try {
-
-            for (Neo4JRelation i : rels) {
-                Statement st = connection.createStatement();
-                st.execute(i.createLigacaoString());
-            }
-            connection.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void termina() throws SQLException{
-        this.connection.close();
-    }
 }

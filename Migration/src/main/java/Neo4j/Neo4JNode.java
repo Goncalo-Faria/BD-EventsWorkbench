@@ -6,25 +6,19 @@ import java.util.Map.Entry;
 /**
  * Classe Generica para criar script de criaçao de nó no Neo4j
  * */
-public class Neo4JNode {
-    private String type;
-    private Map<String,String> atributes = new HashMap();
+public class Neo4JNode extends Neo4JDataFormat{
 
     public Neo4JNode(String type) {
-        this.type = type;
+        super(type);
     }
 
-    public void addAtribute(String type,String attribute){
-        atributes.put(type,attribute);
-    }
-
-    public String createString(){
+    public String createCommand(){
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE (:");
-        sb.append(type);
+        sb.append(this.getType());
         sb.append(" {");
         boolean comma = false;
-        for (Entry<String,String> e: atributes.entrySet()) {
+        for (Entry<String,String> e: get_atributes().entrySet()) {
             if(!comma)
                 comma = true;
             else
