@@ -1,5 +1,6 @@
 # Events Workbench
 
+Data Base School Project. Check the final report [here](https://github.com/Goncalo-Faria/BD-EventsWorkbench/blob/report/BD-2018%20-%20Entrega%20do%20Trabalho%20Pratico%202%20(Grupo%2018).pdf).
 
 ## Contributing
 
