@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.LogManager;
 
 public class Neo4JWriter implements Runnable{
 
@@ -17,6 +18,7 @@ public class Neo4JWriter implements Runnable{
 
     public Neo4JWriter(String user, String password, String ip, int instruction_size) throws SQLException, ClassNotFoundException{
         Class.forName("org.neo4j.jdbc.bolt.BoltDriver");
+        LogManager.getLogManager().reset();
         connection = DriverManager.getConnection("jdbc:neo4j:bolt://" + ip + "?username="+user+",password="+password+",routing:policy=EU");
         connection.setAutoCommit(false);
         this.instruction_size=instruction_size;

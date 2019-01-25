@@ -2,13 +2,22 @@ package RelationalDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public final class EventsWorkbenchGetter {
 
     private final RelationalDatabaseConnection l;
 
     public EventsWorkbenchGetter(String user, String password, String ip) throws SQLException, ClassNotFoundException {
-        l = new RelationalDatabaseConnection("jdbc:mysql://" + ip + "/EventsWorkbench", user, password);
+
+        Properties properties = new Properties();
+        properties.setProperty("user", user);
+        properties.setProperty("password", password);
+        properties.setProperty("useSSL", "false");
+        properties.setProperty("autoReconnect", "true");
+        //l = new RelationalDatabaseConnection("jdbc:mysql://" + ip + "/EventsWorkbench", user, password);
+        l = new RelationalDatabaseConnection("jdbc:mysql://" + ip + "/EventsWorkbench", properties);
+
     }
 
     public void termina() throws SQLException{

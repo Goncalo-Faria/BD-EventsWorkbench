@@ -73,12 +73,13 @@ public class Migrator {
 
             wb.termina();
             neow.termina();
-
+            System.out.println("Migração terminada com sucesso");
         }catch(SQLException|InterruptedException a ){
             System.out.println(a.getMessage());
 
         }catch(ClassNotFoundException b){
-            System.out.println(" Driver error ");
+            System.out.println(" Driver error " + b.getMessage());
+
         }
     }
 
